@@ -1,6 +1,6 @@
-# Messanger
+## Messanger
 
-Goals:
+# Goals:
 - [ ] Add SignalR
 - [ ] Add more CRUDs
 - [ ] Add AutoMapper
