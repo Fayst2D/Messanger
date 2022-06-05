@@ -13,14 +13,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Messanger.BusinessLogic.Commands.Messages
 {
+    public class SendMessageRequest
+    {
+        public string Message { get; set; }
+        public Guid ChatId { get; set; }
+    }
+
     public class SendMessageCommand : BaseRequest, IRequest<Response<Message>>
     {
         public string Message { get; set; }
         public Guid ChatId { get; set; }
     }
     
-    
-
     public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<Message>>
     {
         private readonly DatabaseContext _context;

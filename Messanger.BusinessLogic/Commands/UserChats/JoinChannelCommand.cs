@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Messanger.BusinessLogic.Commands.UserChats;
 
+public class JoinChannelRequest
+{
+    public Guid ChatId { get; set; }
+}
 public class JoinChannelCommand : BaseRequest, IRequest<Response<Chat>>
 {
     public Guid ChatId { get; set; }

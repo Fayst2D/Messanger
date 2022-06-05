@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using MediatR;
 using Messanger.BusinessLogic.Commands.Messages;
 using Messanger.BusinessLogic.Queries.Messages.GetMessages;
@@ -14,19 +15,18 @@ namespace Messanger.Presentation.Controllers
     public class MessageController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public MessageController(IMediator mediator)
+        public MessageController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetMessages([FromQuery] Guid ChatId)
+        public async Task<IActionResult> GetMessages([FromQuery]GetMessagesRequest getMessagesRequest)
         {
-            var getMessagesQuery = new GetMessagesQuery
-            {
-                ChatId = ChatId
-            };
+            var getMessagesQuery = _mapper.Map<GetMessagesQuery>(getMessagesRequest);
             
             return Ok(await _mediator.Send(getMessagesQuery));
         }
@@ -39,6 +39,8 @@ namespace Messanger.Presentation.Controllers
                 ChatId = sendMessageRequest.ChatId,
                 Message = sendMessageRequest.Message
             };
+
+
             
             return Ok(await _mediator.Send(sendMessageCommand));
         }

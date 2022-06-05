@@ -6,6 +6,10 @@ using Messanger.Domain.Enums;
 
 namespace Messanger.BusinessLogic.Commands.UserChats;
 
+public class CreateChannelRequest
+{
+    public string Title { get; set; }
+}
 public class CreateChannelCommand : BaseRequest, IRequest<Response<Chat>>
 {
     public string Title { get; set; }

@@ -10,6 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Messanger.BusinessLogic.Queries.Messages.GetMessages
 {
+    public class GetMessagesRequest
+    {
+        public Guid ChatId { get; set; }
+    }
     public class GetMessagesQuery : BaseRequest, IRequest<Response<IEnumerable<Message>>>
     {
         public Guid ChatId { get; set; }

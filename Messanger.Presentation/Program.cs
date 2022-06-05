@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using Messanger.Presentation.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,10 +73,13 @@ builder.Services.AddScoped<IJwtGenerator,JwtGenerator>();
 
 builder.Services.AddMediatR(typeof(RegisterUserCommand).Assembly);
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UserIdPipe<,>));
+
+builder.Services.AddSignalR();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

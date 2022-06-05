@@ -219,6 +219,7 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
+
 project.lock.json
 __pycache__/
 
@@ -264,3 +265,4 @@ _UpgradeReport_Files/
 Thumbs.db
 Desktop.ini
 .DS_Store
+/.idea/.idea.Messanger/.idea/discord.xml

@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using AutoMapper;
 using MediatR;
 using Messanger.BusinessLogic.Commands.UserChats;
 using Messanger.BusinessLogic.Queries.Chats;
@@ -14,12 +15,13 @@ namespace Messanger.Presentation.Controllers
     public class UserChatController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
+        
 
-        public UserChatController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+        public UserChatController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
-            _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
         [HttpGet("chats")]
@@ -29,24 +31,16 @@ namespace Messanger.Presentation.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateChannel([FromBody]string Title)
+        public async Task<IActionResult> CreateChannel([FromBody]CreateChannelRequest createChannelRequest)
         {
-            var createChannelCommand = new CreateChannelCommand
-            {
-                Title = Title
-            };
-            
+            var createChannelCommand = _mapper.Map<CreateChannelCommand>(createChannelRequest);
             return Ok(await _mediator.Send(createChannelCommand));
         }
 
         [HttpPost("join")]
-        public async Task<IActionResult> JoinChannel([FromBody] Guid ChatId)
+        public async Task<IActionResult> JoinChannel([FromBody]JoinChannelRequest joinChannelRequest)
         {
-            var joinChannelCommand = new JoinChannelCommand
-            {
-                ChatId = ChatId
-            };
-            
+            var joinChannelCommand = _mapper.Map<JoinChannelRequest>(joinChannelRequest);       
             return Ok(await _mediator.Send(joinChannelCommand));
         }
 
