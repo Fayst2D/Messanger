@@ -1,20 +1,19 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Messanger.DataAccess;
-using Microsoft.EntityFrameworkCore.Migrations;
 using MediatR;
-using Messanger.BusinessLogic.Queries.Messages.GetMessages;
-using Messanger.Application.Interfaces;
-using Messanger.Application.Services;
-using Messanger.BusinessLogic.Commands.Users;
-using Messanger.BusinessLogic.Pipelines;
-using Messanger.Domain.Constants;
+using Messenger.BusinessLogic.Commands.Users;
 using Microsoft.OpenApi.Models;
 using Messanger.Presentation.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using Messanger.BusinessLogic.Pipelines;
+using Messenger.Data;
+using Messenger.Domain.Constants;
+using Messenger.Services.Interfaces;
+using Messenger.Services.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

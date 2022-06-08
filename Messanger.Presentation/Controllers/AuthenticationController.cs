@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Messanger.BusinessLogic.Commands.Authentication;
+using Messenger.BusinessLogic.Commands.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

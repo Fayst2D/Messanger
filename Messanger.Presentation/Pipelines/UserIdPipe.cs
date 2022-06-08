@@ -1,6 +1,7 @@
-﻿using System.Security.Claims;
+﻿
 using MediatR;
-using Messanger.BusinessLogic.Commands.Authentication;
+using Messenger.BusinessLogic;
+
 
 namespace Messanger.BusinessLogic.Pipelines;
 
@@ -8,9 +9,9 @@ public class UserIdPipe<TIn, TOut> : IPipelineBehavior<TIn,TOut> where TIn : IRe
 {
     private readonly HttpContext _httpContext;
     
-    public UserIdPipe(IHttpContextAccessor httpContext)
+    public UserIdPipe(IHttpContextAccessor httpContextAccessor)
     {
-        _httpContext = httpContext.HttpContext;
+        _httpContext = httpContextAccessor.HttpContext;
     }
     
     public Task<TOut> Handle(TIn request, CancellationToken cancellationToken, RequestHandlerDelegate<TOut> next)

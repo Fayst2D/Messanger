@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Messanger.DataAccess.Migrations
+namespace Messenger.Data.Migrations
 {
     public partial class RemoveKeyFromUserChat : Migration
     {

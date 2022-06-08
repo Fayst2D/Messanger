@@ -1,8 +1,8 @@
-﻿using Messanger.BusinessLogic.Commands.Users;
+﻿using Messenger.BusinessLogic.Commands.Users;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Messanger.BusinessLogic;
-using Messanger.BusinessLogic.Queries.Users;
+using Messenger.BusinessLogic;
+using Messenger.BusinessLogic.Queries.Users;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Messanger.Presentation.Controllers

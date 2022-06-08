@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
 using MediatR;
-using Messanger.BusinessLogic.Commands.Messages;
-using Messanger.BusinessLogic.Queries.Messages.GetMessages;
+using Messenger.BusinessLogic.Commands.Messages;
+using Messenger.BusinessLogic.Queries.Messages.GetMessages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +23,7 @@ namespace Messanger.Presentation.Controllers
             _mapper = mapper;
         }
         
-        [HttpGet]
+        [HttpGet("get")]
         public async Task<IActionResult> GetMessages([FromQuery]GetMessagesRequest getMessagesRequest)
         {
             var getMessagesQuery = _mapper.Map<GetMessagesQuery>(getMessagesRequest);
@@ -31,20 +31,21 @@ namespace Messanger.Presentation.Controllers
             return Ok(await _mediator.Send(getMessagesQuery));
         }
 
-        [HttpPost("sendMessage")]
+        [HttpPost("send")]
         public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest sendMessageRequest)
         {
-            var sendMessageCommand = new SendMessageCommand
-            {
-                ChatId = sendMessageRequest.ChatId,
-                Message = sendMessageRequest.Message
-            };
+            var sendMessageCommand = _mapper.Map<SendMessageCommand>(sendMessageRequest);
 
-
-            
             return Ok(await _mediator.Send(sendMessageCommand));
         }
-        
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteMessage([FromBody] DeleteMessageRequest deleteMessageRequest)
+        {
+            var deleteMessageCommand = _mapper.Map<DeleteMessageCommand>(deleteMessageRequest);
+
+            return Ok(await _mediator.Send(deleteMessageCommand));
+        }
 
     }
 }

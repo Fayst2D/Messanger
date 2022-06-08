@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Messanger.DataAccess.Migrations
+namespace Messenger.Data.Migrations
 {
     /// <inheritdoc />
     public partial class ChangeDbName : Migration

@@ -1,4 +1,4 @@
-﻿using Messanger.Domain.Entities;
+﻿using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Messanger.DataAccess
+namespace Messenger.Data
 {
     public class DatabaseContext : DbContext
     {

@@ -1,8 +1,8 @@
-﻿using Messanger.Domain.Constants;
+﻿using Messenger.Domain.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Messanger.DataAccess;
+namespace Messenger.Data;
 
 public class DatabaseContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
 {

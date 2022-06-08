@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
 using MediatR;
-using Messanger.BusinessLogic.Commands.UserChats;
-using Messanger.BusinessLogic.Queries.Chats;
+using Messenger.BusinessLogic.Commands.UserChats;
+using Messenger.BusinessLogic.Queries.Chats;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
