@@ -1,4 +1,4 @@
-# Messanger
+# Messenger
 
 ## Goals:
 - [ ] Add SignalR
