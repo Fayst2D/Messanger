@@ -12,10 +12,10 @@ namespace Messenger.Domain.Entities
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        //public string Image { get; set; } for future
+        //public string Image { get; set; } TODO
 
         public ICollection<MessageEntity> Messages { get; set; }
         public ICollection<UserChatEntity> UserChats { get; set; }
-        public ICollection<UserEntity> UserFriends { get; set; }
+        public ICollection<UserEntity> UserContacts { get; set; }
     }
 }

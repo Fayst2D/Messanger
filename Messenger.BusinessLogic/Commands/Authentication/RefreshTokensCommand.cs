@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
-using Messenger.Services.Interfaces;
+using Messenger.ApplicationServices.Interfaces;
 using Messenger.Data;
 using Messenger.Domain.Entities;
 using Messenger.BusinessLogic.Models;

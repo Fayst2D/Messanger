@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Messenger.Services.Interfaces;
+using Messenger.ApplicationServices.Interfaces;
 using Messenger.Data;
 using System;
 using System.Collections.Generic;

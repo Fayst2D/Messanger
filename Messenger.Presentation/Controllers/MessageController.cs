@@ -27,7 +27,7 @@ namespace Messanger.Presentation.Controllers
         public async Task<IActionResult> GetMessages([FromQuery]GetMessagesRequest getMessagesRequest)
         {
             var getMessagesQuery = _mapper.Map<GetMessagesQuery>(getMessagesRequest);
-            
+
             return Ok(await _mediator.Send(getMessagesQuery));
         }
 

@@ -9,7 +9,7 @@ namespace Messenger.Domain.Entities
     public class ChatEntity
     {
         public Guid Id { get; set; }
-        //public string Image { get; set; }
+        //public string Image { get; set; } TODO
         public string Title { get; set; }
         public int MembersCount { get; set; }
         public int ChatType { get; set; }
