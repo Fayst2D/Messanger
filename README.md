@@ -1,5 +1,8 @@
 # Messenger
 
+## Used CQRS design pattern
+
+
 ## Goals:
 - [ ] Add SignalR
 - [x] Add more CRUDs
