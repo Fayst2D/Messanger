@@ -1,6 +1,6 @@
 # Messenger
 
-## Used CQRS design pattern
+### Used CQRS design pattern
 
 
 ## Goals:
