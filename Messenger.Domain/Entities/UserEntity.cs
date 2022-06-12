@@ -17,5 +17,6 @@ namespace Messenger.Domain.Entities
         public ICollection<MessageEntity> Messages { get; set; }
         public ICollection<UserChatEntity> UserChats { get; set; }
         public ICollection<UserEntity> UserContacts { get; set; }
+        public ICollection<UserLimitEntity> UserLimits { get; set; }
     }
 }

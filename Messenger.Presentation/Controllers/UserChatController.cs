@@ -40,7 +40,7 @@ namespace Messanger.Presentation.Controllers
         [HttpPost("join")]
         public async Task<IActionResult> JoinChannel([FromBody]JoinChannelRequest joinChannelRequest)
         {
-            var joinChannelCommand = _mapper.Map<JoinChannelRequest>(joinChannelRequest);       
+            var joinChannelCommand = _mapper.Map<JoinChannelCommand>(joinChannelRequest);       
             return Ok(await _mediator.Send(joinChannelCommand));
         }
 

@@ -28,8 +28,24 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
     
     public async Task<Response<Chat>> Handle(JoinChannelCommand request, CancellationToken cancellationToken)
     {
+        var banEntity = await _context.UserLimits
+            .Where(x => x.ChatId == request.ChatId && x.UserId == request.UserId &&
+                        x.LimitType == (int)LimitTypes.Ban)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (banEntity != null)
+        {
+
+            if (DateTime.Compare(banEntity.LimitedAt,banEntity.UnLimitedAt) >= 0)
+            {
+                return Response.Fail<Chat>($"you will unban on {banEntity.UnLimitedAt}");
+            }
+            
+            _context.UserLimits.Remove(banEntity);
+        }
+        
         var IsJoined = await _context.UserChats
-            .AnyAsync(entity => entity.UserId == request.UserId && entity.ChatId == request.ChatId);
+            .AnyAsync(entity => entity.UserId == request.UserId && entity.ChatId == request.ChatId,cancellationToken);
 
         if (IsJoined)
         {
@@ -66,3 +82,6 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
         return Response.Ok("Ok", chat);
     }
 }
+
+
+

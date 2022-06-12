@@ -19,6 +19,8 @@ namespace Messenger.Data
         public DbSet<UserChatEntity> UserChats { get; set; }
         public DbSet<ContactEntity> Contacts { get; set; }
 
+        public DbSet<UserLimitEntity> UserLimits { get; set; }
+
         public DatabaseContext(DbContextOptions options) : base(options)
         {
           
@@ -28,3 +30,5 @@ namespace Messenger.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
+
+

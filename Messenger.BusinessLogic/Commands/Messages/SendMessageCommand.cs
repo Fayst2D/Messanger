@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
@@ -8,6 +7,7 @@ using Messenger.Data;
 using Messenger.Data.Migrations;
 using Messenger.Domain.Entities;
 using Messenger.BusinessLogic.Models;
+using Messenger.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -35,6 +35,16 @@ namespace Messenger.BusinessLogic.Commands.Messages
 
         public async Task<Response<Message>> Handle(SendMessageCommand request, CancellationToken cancellationToken)
         {
+            var muteEntity = await _context.UserLimits
+                .Where(x => x.ChatId == request.ChatId && x.UserId == request.UserId &&
+                            x.LimitType == (int)LimitTypes.Mute)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (muteEntity != null)
+            {
+                return Response.Fail<Message>($"you will be unmute on {muteEntity.UnLimitedAt}");
+            }
+            
             var messageEntity = new MessageEntity
             {
                 Id = Guid.NewGuid(),
