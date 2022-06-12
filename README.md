@@ -5,7 +5,7 @@
 
 ## Goals:
 - [ ] Add SignalR
-- [x] Add more CRUDs
+- [ ] Add more CRUDs
 - [x] Add AutoMapper
 - [ ] Add Unit Tests
 - [ ] Deploy
