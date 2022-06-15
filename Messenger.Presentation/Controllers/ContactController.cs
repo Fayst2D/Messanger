@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using Messenger.BusinessLogic.Commands.Contacts;
+using Messenger.BusinessLogic.Commands.Contacts.Add;
+using Messenger.BusinessLogic.Commands.Contacts.Delete;
 using Messenger.BusinessLogic.Queries.Contacts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Messanger.Presentation.Controllers;
+// ReSharper disable once CheckNamespace
+namespace Messenger.Presentation.Controllers;
 
 [ApiController]
 [Authorize]

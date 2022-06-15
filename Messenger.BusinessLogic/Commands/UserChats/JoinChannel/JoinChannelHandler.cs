@@ -1,21 +1,13 @@
 ﻿using MediatR;
+using Messenger.BusinessLogic.Models;
 using Messenger.Data;
-using Messenger.Domain.Constants;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
-using Messenger.BusinessLogic.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.BusinessLogic.Commands.UserChats;
 
-public class JoinChannelRequest
-{
-    public Guid ChatId { get; set; }
-}
-public class JoinChannelCommand : BaseRequest, IRequest<Response<Chat>>
-{
-    public Guid ChatId { get; set; }
-}
+namespace Messenger.BusinessLogic.Commands.UserChats.JoinChannel;
+
 
 public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<Chat>>
 {
@@ -44,10 +36,10 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
             _context.UserLimits.Remove(banEntity);
         }
         
-        var IsJoined = await _context.UserChats
+        var isJoined = await _context.UserChats
             .AnyAsync(entity => entity.UserId == request.UserId && entity.ChatId == request.ChatId,cancellationToken);
 
-        if (IsJoined)
+        if (isJoined)
         {
             return Response.Fail<Chat>("AlreadyJoined");
         }

@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Messenger.Data;
 using Messenger.BusinessLogic.Models;
+using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.BusinessLogic.Queries.Messages.GetMessages
+namespace Messenger.BusinessLogic.Queries.Messages
 {
     public class GetMessagesRequest
     {

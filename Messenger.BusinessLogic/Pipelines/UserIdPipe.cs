@@ -1,9 +1,10 @@
 ﻿
 using MediatR;
 using Messenger.BusinessLogic;
+using Microsoft.AspNetCore.Http;
 
 
-namespace Messanger.BusinessLogic.Pipelines;
+namespace Messenger.BusinessLogic.Pipelines;
 
 public class UserIdPipe<TIn, TOut> : IPipelineBehavior<TIn,TOut> where TIn : IRequest<TOut>
 {
@@ -14,7 +15,7 @@ public class UserIdPipe<TIn, TOut> : IPipelineBehavior<TIn,TOut> where TIn : IRe
         _httpContext = httpContextAccessor.HttpContext;
     }
     
-    public Task<TOut> Handle(TIn request, CancellationToken cancellationToken, RequestHandlerDelegate<TOut> next)
+    public async Task<TOut> Handle(TIn request, CancellationToken cancellationToken, RequestHandlerDelegate<TOut> next)
     {
 
         if (request is BaseRequest baseRequest)
@@ -23,6 +24,6 @@ public class UserIdPipe<TIn, TOut> : IPipelineBehavior<TIn,TOut> where TIn : IRe
             baseRequest.UserId = userId;
         }
 
-        return next();
+        return await next();
     }
 }

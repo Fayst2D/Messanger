@@ -2,15 +2,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using Messenger.BusinessLogic.Commands.Users;
 using Microsoft.OpenApi.Models;
 using Messanger.Presentation.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
-using Messanger.BusinessLogic.Pipelines;
+using Messenger.BusinessLogic.Pipelines;
 using Messenger.ApplicationServices.Interfaces;
 using Messenger.ApplicationServices.Services;
+using Messenger.BusinessLogic.Commands.Users.Register;
 using Messenger.Data;
 using Messenger.Domain.Constants;
 

@@ -2,17 +2,7 @@
 using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.BusinessLogic.Commands.Contacts;
-
-public class DeleteContactRequest
-{
-    public Guid ContactId { get; set; }
-}
-
-public class DeleteContactCommand : BaseRequest, IRequest<Response<string>>
-{
-    public Guid ContactId { get; set; }
-}
+namespace Messenger.BusinessLogic.Commands.Contacts.Delete;
 
 public class DeleteContactHandler : IRequestHandler<DeleteContactCommand, Response<string>>
 {

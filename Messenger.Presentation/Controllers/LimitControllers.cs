@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
 using Messenger.BusinessLogic.Commands.Limits;
+using Messenger.BusinessLogic.Commands.Limits.LimitUser;
 using Messenger.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Messanger.Presentation.Controllers;
+// ReSharper disable once CheckNamespace
+namespace Messenger.Presentation.Controllers;
 
 [Authorize]
 [ApiController]
@@ -22,25 +24,32 @@ public class LimitControllers : ControllerBase
     }
     
     [HttpPost("ban")]
-    public async Task<IActionResult> BanUser([FromBody]LimitRequest limitRequest)
+    public async Task<IActionResult> BanUser([FromBody]LimitUserRequest limitRequest)
     {
-        var banUserCommand = _mapper.Map<LimitUserCommand>(limitRequest);
-        banUserCommand.LimitType = (int)LimitTypes.Ban;
-        banUserCommand.LimitedAt = DateTime.Now;
-        banUserCommand.UnLimitedAt = limitRequest.UnLimitedOAt;
+        var banUserCommand = new LimitUserCommand
+        {
+            ChatId = limitRequest.ChatId,
+            LimitedAt = DateTime.Now,
+            LimitedUserId = limitRequest.LimitedUserId,
+            LimitType = (int)LimitTypes.Ban,
+            UnLimitedAt = limitRequest.UnLimitedAt
+        };
 
         return Ok(await _mediator.Send(banUserCommand));
     }
 
     [HttpPost("mute")]
-    public async Task<IActionResult> MuteUser([FromBody]LimitRequest limitRequest)
+    public async Task<IActionResult> MuteUser([FromBody]LimitUserRequest limitRequest)
     {
-        var muteUserCommand = _mapper.Map<LimitUserCommand>(limitRequest);
-        muteUserCommand.LimitType = (int)LimitTypes.Mute;
-        muteUserCommand.LimitedAt = DateTime.Now;
-        muteUserCommand.UnLimitedAt = limitRequest.UnLimitedOAt;
+        var muteUserCommand = new LimitUserCommand
+        {
+            ChatId = limitRequest.ChatId,
+            LimitedAt = DateTime.Now,
+            LimitedUserId = limitRequest.LimitedUserId,
+            LimitType = (int)LimitTypes.Mute,
+            UnLimitedAt = limitRequest.UnLimitedAt
+        };
         
-
         return Ok(await _mediator.Send(muteUserCommand));
     }
 }

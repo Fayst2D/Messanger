@@ -1,23 +1,9 @@
 ﻿using MediatR;
-using Messenger.Data;
-using Messenger.Domain.Entities;
 using Messenger.BusinessLogic.Models;
+using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.BusinessLogic.Commands.Messages;
-
-public class DeleteMessageRequest
-{
-    public Guid MessageId { get; set; }
-    public Guid ChatId { get; set; }
-}
-
-public class DeleteMessageCommand : BaseRequest, IRequest<Response<Message>>
-{
-    public Guid MessageId { get; set; }
-    public Guid ChatId { get; set; }
-}
-
+namespace Messenger.BusinessLogic.Commands.Messages.Delete;
 
 public class DeleteMessageHandler : IRequestHandler<DeleteMessageCommand, Response<Message>>
 {

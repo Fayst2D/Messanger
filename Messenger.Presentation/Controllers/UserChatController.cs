@@ -1,13 +1,14 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
-using Messenger.BusinessLogic.Commands.UserChats;
-using Messenger.BusinessLogic.Queries.Chats;
+using Messenger.BusinessLogic.Commands.UserChats.CreateChannel;
+using Messenger.BusinessLogic.Commands.UserChats.JoinChannel;
+using Messenger.BusinessLogic.Queries.UserChats;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Messanger.Presentation.Controllers
+
+// ReSharper disable once CheckNamespace
+namespace Messenger.Presentation.Controllers
 {
     [Authorize]
     [Route("chat")]

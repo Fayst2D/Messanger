@@ -1,13 +1,15 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
-using Messenger.BusinessLogic.Commands.Messages;
-using Messenger.BusinessLogic.Queries.Messages.GetMessages;
+using Messenger.BusinessLogic.Commands.Messages.Delete;
+using Messenger.BusinessLogic.Commands.Messages.Edit;
+using Messenger.BusinessLogic.Commands.Messages.Send;
+using Messenger.BusinessLogic.Queries.Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace Messanger.Presentation.Controllers
+// ReSharper disable once CheckNamespace
+namespace Messenger.Presentation.Controllers
 {
     [ApiController]
     [Route("[controller]")]

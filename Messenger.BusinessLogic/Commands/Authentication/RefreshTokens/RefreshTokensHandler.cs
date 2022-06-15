@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
-using Messenger.ApplicationServices.Interfaces;
+﻿using MediatR;
 using Messenger.Data;
 using Messenger.Domain.Entities;
-using Messenger.BusinessLogic.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Messenger.ApplicationServices.Interfaces;
+using Messenger.BusinessLogic.Models;
 
-namespace Messenger.BusinessLogic.Commands.Authentication
-{
-    public class RefreshTokensCommand : IRequest<Response<TokenPair>>
-    {
-        public string RefreshToken { get; set; }
-    }
+namespace Messenger.BusinessLogic.Commands.Authentication.RefreshTokens;
 
-    public class RefreshTokensHandler : IRequestHandler<RefreshTokensCommand ,Response<TokenPair>>
+public class RefreshTokensHandler : IRequestHandler<RefreshTokensCommand ,Response<TokenPair>>
     {
         private readonly DatabaseContext _context;
         private readonly IJwtGenerator _jwtGenerator;
@@ -39,14 +29,14 @@ namespace Messenger.BusinessLogic.Commands.Authentication
             }
 
             var refreshTokenId = Guid.Parse(refreshTokenClaims["jti"]);
-            var refreshTokenEntity = await _context.RefreshTokens.SingleOrDefaultAsync(rt =>rt.Id == refreshTokenId);
+            var refreshTokenEntity = await _context.RefreshTokens.SingleOrDefaultAsync(rt =>rt.Id == refreshTokenId,cancellationToken);
             if(refreshTokenEntity == null)
             {
                 return Response.Fail<TokenPair>("Provided refresh token has already been used");
             }
 
             _context.RefreshTokens.Remove(refreshTokenEntity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             var userId = Guid.Parse(refreshTokenClaims["sub"]);
             var refreshTokenLifeTime = int.Parse(_config["JWTAuth:RefreshTokenLifeTime"]);
@@ -59,7 +49,7 @@ namespace Messenger.BusinessLogic.Commands.Authentication
             };
 
             _context.RefreshTokens.Add(newRefreshTokenEntity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             var tokenPair = _jwtGenerator.IssueTokenPair(userId,newRefreshTokenEntity.Id);
             var tokenPairModel = new TokenPair 
@@ -71,4 +61,3 @@ namespace Messenger.BusinessLogic.Commands.Authentication
             return Response.Ok("Ok",tokenPairModel);
         }
     }
-}

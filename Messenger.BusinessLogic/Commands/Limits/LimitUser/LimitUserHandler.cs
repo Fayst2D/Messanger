@@ -1,33 +1,16 @@
-﻿using MediatR;
-using Messenger.Data;
-using Messenger.Domain.Constants;
+﻿using Messenger.Data;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
 
-namespace Messenger.BusinessLogic.Commands.Limits;
+namespace Messenger.BusinessLogic.Commands.Limits.LimitUser;
 
-public class LimitRequest
-{
-    public Guid ChatId { get; set; }
-    public Guid LimitedUserId { get; set; }
-    public DateTime UnLimitedOAt{ get; set; }
-}
-
-public class LimitUserCommand : BaseRequest, IRequest<Response<string>>
-{
-    public Guid ChatId { get; set; }
-    public Guid LimitedUserId { get; set; }
-    public DateTime LimitedAt { get; set; }
-    public DateTime UnLimitedAt { get; set; }
-    public int LimitType { get; set; }
-}
-
-public class BanUserHandler : IRequestHandler<LimitUserCommand, Response<string>>
+public class LimitUserHandler : IRequestHandler<LimitUserCommand, Response<string>>
 {
     private readonly DatabaseContext _context;
 
-    public BanUserHandler(DatabaseContext context)
+    public LimitUserHandler(DatabaseContext context)
     {
         _context = context;
     }
@@ -49,6 +32,11 @@ public class BanUserHandler : IRequestHandler<LimitUserCommand, Response<string>
         if (limitedUser == null)
         {
             return Response.Fail<string>("banned user not found");
+        }
+
+        if (currentUser == null)
+        {
+            return Response.Fail<string>("you didn't authenticated");
         }
 
         if (currentUser.RoleId <= limitedUser.RoleId)

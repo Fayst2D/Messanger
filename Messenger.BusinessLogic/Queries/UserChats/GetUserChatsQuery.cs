@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Messenger.Data;
 using Messenger.BusinessLogic.Models;
+using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.BusinessLogic.Queries.Chats;
+namespace Messenger.BusinessLogic.Queries.UserChats;
 
 public class GetUserChatsQuery : BaseRequest, IRequest<Response<IEnumerable<Chat>>>
 {

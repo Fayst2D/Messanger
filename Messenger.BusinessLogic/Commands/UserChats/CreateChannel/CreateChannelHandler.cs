@@ -1,19 +1,11 @@
 ﻿using MediatR;
+using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
-using Messenger.BusinessLogic.Models;
 
-namespace Messenger.BusinessLogic.Commands.UserChats;
+namespace Messenger.BusinessLogic.Commands.UserChats.CreateChannel;
 
-public class CreateChannelRequest
-{
-    public string Title { get; set; }
-}
-public class CreateChannelCommand : BaseRequest, IRequest<Response<Chat>>
-{
-    public string Title { get; set; }
-}
 
 public class CreateChannelHandler : IRequestHandler<CreateChannelCommand, Response<Chat>>
 {

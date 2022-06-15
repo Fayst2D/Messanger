@@ -1,24 +1,9 @@
 ﻿using MediatR;
-using Messenger.Data;
 using Messenger.BusinessLogic.Models;
+using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.BusinessLogic.Commands.Messages;
-
-public class EditMessageRequest
-{
-    public Guid MessageId { get; set; }
-    public Guid ChatId { get; set; }
-    public string MessageText { get; set; }
-}
-
-public class EditMessageCommand : BaseRequest, IRequest<Response<Message>>
-{
-    public Guid MessageId { get; set; }
-    public Guid ChatId { get; set; }
-    public string MessageText { get; set; }
-}
-
+namespace Messenger.BusinessLogic.Commands.Messages.Edit;
 
 public class EditMessageHandler : IRequestHandler<EditMessageCommand, Response<Message>>
 {

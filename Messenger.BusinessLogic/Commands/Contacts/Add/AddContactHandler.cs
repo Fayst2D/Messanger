@@ -3,19 +3,7 @@ using Messenger.Data;
 using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.BusinessLogic.Commands.Contacts;
-
-
-
-public class AddContactRequest
-{
-    public Guid ContactId { get; set; }
-}
-
-public class AddContactCommand : BaseRequest, IRequest<Response<string>>
-{
-    public Guid ContactId { get; set; }
-}
+namespace Messenger.BusinessLogic.Commands.Contacts.Add;
 
 public class AddContactHandler : IRequestHandler<AddContactCommand, Response<string>>
 {
@@ -65,4 +53,3 @@ public class AddContactHandler : IRequestHandler<AddContactCommand, Response<str
         return Response.Ok<string>("Ok","contact added");
     }
 }
-

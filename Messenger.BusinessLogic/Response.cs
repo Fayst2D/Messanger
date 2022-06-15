@@ -18,7 +18,9 @@ namespace Messenger.BusinessLogic
 
     public class Response<T>
     {
-
+        public T Data { get; set; }
+        public string Message { get; set; }
+        public bool Error { get; set; }
         
         public Response(T data,string message,bool error)
         {
@@ -26,10 +28,6 @@ namespace Messenger.BusinessLogic
             Message = message;
             Error = error;
         }
-
-        public T Data { get; set; }
-        public string Message { get; set; }
-        public bool Error { get; set; }
     }
 }
 
