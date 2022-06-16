@@ -20,6 +20,8 @@ namespace Messenger.Presentation.Controllers
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Login([FromBody] LoginCommand authenticateUserCommand)
         {
             return Ok(await _mediatr.Send(authenticateUserCommand));

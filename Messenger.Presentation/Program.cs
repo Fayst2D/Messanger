@@ -13,7 +13,9 @@ using Messenger.ApplicationServices.Services;
 using Messenger.BusinessLogic.Commands.Users.Register;
 using Messenger.Data;
 using Messenger.Domain.Constants;
-
+using FluentValidation;
+using Messenger.BusinessLogic.Commands.Authentication.Login;
+using Messenger.Presentation.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +27,7 @@ var configuration = new ConfigurationBuilder()
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -75,11 +78,19 @@ builder.Services.AddMediatR(typeof(RegisterUserCommand).Assembly);
 
 builder.Services.AddHttpContextAccessor();
 
+//pipeline
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UserIdPipe<,>));
+
+//validation
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddValidatorsFromAssembly(typeof(LoginCommandValidator).Assembly);
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 builder.Services.AddSignalR();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+
 
 var app = builder.Build();
 
@@ -93,6 +104,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
