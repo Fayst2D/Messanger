@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using AutoMapper;
 using MediatR;
 using Messenger.BusinessLogic.Commands.Messages.Delete;
 using Messenger.BusinessLogic.Commands.Messages.Edit;
@@ -14,47 +15,49 @@ namespace Messenger.Presentation.Controllers
     [ApiController]
     [Route("[controller]")]
     [Authorize]
-    public class MessageController : ControllerBase
+    public class MessageController : BaseApiController
     {
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-
-        public MessageController(IMediator mediator, IMapper mapper)
-        {
-            _mediator = mediator;
-            _mapper = mapper;
-        }
+        public MessageController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
         
         [HttpGet("get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMessages([FromQuery]GetMessagesRequest getMessagesRequest)
         {
             var getMessagesQuery = _mapper.Map<GetMessagesQuery>(getMessagesRequest);
 
-            return Ok(await _mediator.Send(getMessagesQuery));
+            return await Request(getMessagesQuery);
         }
 
         [HttpPost("send")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest sendMessageRequest)
         {
             var sendMessageCommand = _mapper.Map<SendMessageCommand>(sendMessageRequest);
 
-            return Ok(await _mediator.Send(sendMessageCommand));
+            return await Request(sendMessageCommand);
         }
 
         [HttpDelete("delete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteMessage([FromBody] DeleteMessageRequest deleteMessageRequest)
         {
             var deleteMessageCommand = _mapper.Map<DeleteMessageCommand>(deleteMessageRequest);
 
-            return Ok(await _mediator.Send(deleteMessageCommand));
+            return await Request(deleteMessageCommand);
         }
 
         [HttpPut("edit")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> EditMessage([FromBody] EditMessageRequest editMessageRequest)
         {
             var editMessageCommand = _mapper.Map<EditMessageCommand>(editMessageRequest);
 
-            return Ok(await _mediator.Send(editMessageCommand));
+            return await Request(editMessageCommand);
         }
 
     }

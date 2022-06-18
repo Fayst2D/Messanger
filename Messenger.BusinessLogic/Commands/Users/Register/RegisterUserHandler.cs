@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.Data;
 using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,12 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Response
 
     public async Task<Response<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var emailTaken = _context.Users.AnyAsync(x => x.Email == request.Email,cancellationToken);
+        var emailTaken = await _context.Users.AnyAsync(x => x.Email == request.Email,cancellationToken);
 
+        if (emailTaken)
+        {
+            return Response.Fail<string>("Email already taken",HttpStatusCode.Conflict);
+        }
 
         var userEntity = new UserEntity
         {

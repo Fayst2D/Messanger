@@ -12,18 +12,14 @@ namespace Messenger.Presentation.Controllers;
 [Authorize]
 [ApiController]
 [Route("[controller]")]
-public class LimitControllers : ControllerBase
+public class LimitControllers : BaseApiController
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
-
-    public LimitControllers(IMediator mediator, IMapper mapper)
-    {
-        _mapper = mapper;
-        _mediator = mediator;
-    }
+    public LimitControllers(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
     
     [HttpPost("ban")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> BanUser([FromBody]LimitUserRequest limitRequest)
     {
         var banUserCommand = new LimitUserCommand
@@ -35,10 +31,13 @@ public class LimitControllers : ControllerBase
             UnLimitedAt = limitRequest.UnLimitedAt
         };
 
-        return Ok(await _mediator.Send(banUserCommand));
+        return await Request(banUserCommand);
     }
 
     [HttpPost("mute")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> MuteUser([FromBody]LimitUserRequest limitRequest)
     {
         var muteUserCommand = new LimitUserCommand
@@ -50,6 +49,6 @@ public class LimitControllers : ControllerBase
             UnLimitedAt = limitRequest.UnLimitedAt
         };
         
-        return Ok(await _mediator.Send(muteUserCommand));
+        return await Request(muteUserCommand);
     }
 }

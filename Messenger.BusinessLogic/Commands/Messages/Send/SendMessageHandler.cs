@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Messenger.Domain.Entities;
@@ -25,7 +26,7 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
 
         if (muteEntity != null)
         {
-            return Response.Fail<Message>($"you will be unmute on {muteEntity.UnLimitedAt}");
+            return Response.Fail<Message>($"you will be unmute on {muteEntity.UnLimitedAt}", HttpStatusCode.BadRequest);
         }
 
         var messageEntity = new MessageEntity
@@ -38,7 +39,7 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
         };
 
         _context.Messages.Add(messageEntity);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         var message = new Message
         {

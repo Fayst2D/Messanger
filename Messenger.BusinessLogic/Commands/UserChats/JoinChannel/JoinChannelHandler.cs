@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Messenger.Domain.Entities;
@@ -30,7 +31,7 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
 
             if (DateTime.Compare(banEntity.LimitedAt,banEntity.UnLimitedAt) >= 0)
             {
-                return Response.Fail<Chat>($"you will unban on {banEntity.UnLimitedAt}");
+                return Response.Fail<Chat>($"you will unban on {banEntity.UnLimitedAt}", HttpStatusCode.BadRequest);
             }
             
             _context.UserLimits.Remove(banEntity);
@@ -41,14 +42,16 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
 
         if (isJoined)
         {
-            return Response.Fail<Chat>("AlreadyJoined");
+            return Response.Fail<Chat>("AlreadyJoined", HttpStatusCode.Conflict);
         }
         
-        var chatEntity = await _context.Chats.Where(x => x.ChatType == (int)ChatTypes.Channel).FirstOrDefaultAsync(x => x.Id == request.ChatId);
+        var chatEntity = await _context.Chats
+            .Where(x => x.ChatType == (int)ChatTypes.Channel)
+            .FirstOrDefaultAsync(x => x.Id == request.ChatId, cancellationToken);
 
         if (chatEntity == null)
         {
-            return Response.Fail<Chat>("ChatNotFound");
+            return Response.Fail<Chat>("ChatNotFound",HttpStatusCode.NotFound);
         }
 
         chatEntity.MembersCount++;
@@ -62,7 +65,7 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
             UserId = request.UserId
         });
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         var chat = new Chat()
         {

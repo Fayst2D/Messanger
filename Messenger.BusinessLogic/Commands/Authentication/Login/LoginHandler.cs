@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.ApplicationServices.Interfaces;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
@@ -23,16 +24,16 @@ public class LoginHandler : IRequestHandler<LoginCommand, Response<TokenPair>>
 
     public async Task<Response<TokenPair>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == request.Email);
+        var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == request.Email, cancellationToken);
 
         if (user == null)
         {
-            return Response.Fail<TokenPair>("User not found");
+            return Response.Fail<TokenPair>("User not found",HttpStatusCode.NotFound);
         }
 
         if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
         {
-            return Response.Fail<TokenPair>("Incorrect password");
+            return Response.Fail<TokenPair>("Incorrect password", HttpStatusCode.BadRequest);
         }
 
         var refreshTokenLifeTime = int.Parse(_config["JWTAuth:RefreshTokenLifetime"]);

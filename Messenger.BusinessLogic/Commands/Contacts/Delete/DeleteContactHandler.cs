@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,7 @@ public class DeleteContactHandler : IRequestHandler<DeleteContactCommand, Respon
 
         if (contactEntity == null || mirrorContactEntity == null)
         {
-            return Response.Fail<string>("contact not found");
+            return Response.Fail<string>("contact not found",HttpStatusCode.NotFound);
         }
         
         _context.Remove(contactEntity);

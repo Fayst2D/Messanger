@@ -36,7 +36,7 @@ public class CreateChannelHandler : IRequestHandler<CreateChannelCommand, Respon
             RoleId = (int)UserRoles.Owner
         });
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         var chat = new Chat()
         {

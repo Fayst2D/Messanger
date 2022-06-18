@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,7 @@ public class EditMessageHandler : IRequestHandler<EditMessageCommand, Response<M
 
         if (chatEntity == null)
         {
-            return Response.Fail<Message>("chat not found");
+            return Response.Fail<Message>("chat not found", HttpStatusCode.NotFound);
         }
 
         var messageEntity = chatEntity.Messages.First(x => x.Id == request.MessageId);
@@ -34,7 +35,7 @@ public class EditMessageHandler : IRequestHandler<EditMessageCommand, Response<M
         
 
         _context.Messages.Update(messageEntity);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         var message = new Message
         {

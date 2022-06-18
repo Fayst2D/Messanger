@@ -10,27 +10,27 @@ namespace Messenger.Presentation.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : BaseApiController
     {
-        private readonly IMediator _mediatr;
-
-        public AuthenticationController(IMediator mediator)
-        {
-            _mediatr = mediator;
-        }
+        public AuthenticationController(IMediator mediator) : base(mediator,null) { }
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Login([FromBody] LoginCommand authenticateUserCommand)
         {
-            return Ok(await _mediatr.Send(authenticateUserCommand));
+            return await Request(authenticateUserCommand);
         }
 
         [HttpPost("refresh")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RefreshTokens([FromBody] RefreshTokensCommand refreshTokensCommand)
         {
-            return Ok(await _mediatr.Send(refreshTokensCommand));
+            return await Request(refreshTokensCommand);
         }
     }
 }

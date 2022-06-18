@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
@@ -26,15 +27,10 @@ public class DeleteMessageHandler : IRequestHandler<DeleteMessageCommand, Respon
 
         if (chatEntity == null)
         {
-            Response.Fail<Message>("chat not found");
+            Response.Fail<Message>("chat not found", HttpStatusCode.NotFound);
         }
 
         var messageEntity = chatEntity.Messages.First(x => x.Id == request.MessageId);
-
-        if (messageEntity == null)
-        {
-            Response.Fail<Message>("message not found");
-        }
 
         _context.Messages.Remove(messageEntity);
         await _context.SaveChangesAsync();

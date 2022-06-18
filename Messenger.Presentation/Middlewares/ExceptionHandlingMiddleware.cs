@@ -54,8 +54,6 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
     {
         return exception switch
         {
-            BadHttpRequestException => StatusCodes.Status400BadRequest,
-            DriveNotFoundException => StatusCodes.Status404NotFound,
             ValidationException => StatusCodes.Status422UnprocessableEntity,
             _ => StatusCodes.Status500InternalServerError
         };

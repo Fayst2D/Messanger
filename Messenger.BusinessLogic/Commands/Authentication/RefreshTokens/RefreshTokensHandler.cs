@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.Data;
 using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +26,14 @@ public class RefreshTokensHandler : IRequestHandler<RefreshTokensCommand ,Respon
 
             if(refreshTokenClaims == null)
             {
-                return Response.Fail<TokenPair>("Invalid refresh token was provided");
+                return Response.Fail<TokenPair>("Invalid refresh token was provided", HttpStatusCode.BadRequest);
             }
 
             var refreshTokenId = Guid.Parse(refreshTokenClaims["jti"]);
             var refreshTokenEntity = await _context.RefreshTokens.SingleOrDefaultAsync(rt =>rt.Id == refreshTokenId,cancellationToken);
             if(refreshTokenEntity == null)
             {
-                return Response.Fail<TokenPair>("Provided refresh token has already been used");
+                return Response.Fail<TokenPair>("Provided refresh token has already been used", HttpStatusCode.NotFound);
             }
 
             _context.RefreshTokens.Remove(refreshTokenEntity);

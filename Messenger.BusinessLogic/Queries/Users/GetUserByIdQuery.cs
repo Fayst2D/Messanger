@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.Data;
 using Messenger.BusinessLogic.Models;
 using Microsoft.EntityFrameworkCore;
@@ -30,11 +31,11 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery,Response<User
                 Email = userEntity.Email,
                 Password = userEntity.Password,
                 Username = userEntity.Username
-            }).SingleOrDefaultAsync(user => user.UserId == request.UserId);
+            }).SingleOrDefaultAsync(user => user.UserId == request.UserId, cancellationToken);
 
         if (user == null)
         {
-            Response.Fail<User>("User not found");
+            return Response.Fail<User>("User not found", HttpStatusCode.NotFound);
         }
         
         return Response.Ok("Ok", user);

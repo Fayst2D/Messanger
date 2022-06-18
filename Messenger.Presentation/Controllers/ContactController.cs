@@ -13,36 +13,35 @@ namespace Messenger.Presentation.Controllers;
 [ApiController]
 [Authorize]
 [Route("[controller]")]
-public class ContactController : ControllerBase
+public class ContactController : BaseApiController
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
+    public ContactController(IMediator mediator, IMapper mapper) : base(mediator, mapper) {}
     
-    public ContactController(IMediator mediator,IMapper mapper)
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-    }
-
     [HttpGet("get")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetContacts()
     {
-        return Ok(await _mediator.Send(new GetContactsQuery()));
+        return await Request(new GetContactsQuery());
     }
 
     [HttpPost("add")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> AddContact([FromBody]AddContactRequest addContactRequest)
     {
         var addContactCommand = _mapper.Map<AddContactCommand>(addContactRequest);
 
-        return Ok(await _mediator.Send(addContactCommand));
+        return await Request(addContactCommand);
     }
 
     [HttpDelete("delete")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteContact([FromBody] DeleteContactRequest deleteContactRequest)
     {
         var deleteContactCommand = _mapper.Map<DeleteContactCommand>(deleteContactRequest);
 
-        return Ok(await _mediator.Send(deleteContactCommand));
+        return await Request(deleteContactCommand);
     }
 }

@@ -37,7 +37,7 @@ namespace Messenger.BusinessLogic.Queries.Messages
                     UserId = messageEntity.UserId,
                     MessageText = messageEntity.MessageText,
                     CreatedAt = messageEntity.CreatedAt.ToShortTimeString()
-                }).Take(100).ToListAsync();
+                }).Take(100).ToListAsync(cancellationToken);
 
             return Response.Ok<IEnumerable<Message>>("Ok",messages);
         }

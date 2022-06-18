@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.Data;
 using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -22,12 +23,12 @@ public class AddContactHandler : IRequestHandler<AddContactCommand, Response<str
 
         if (!isContactExists)
         {
-            return Response.Fail<string>("contact not found");
+            return Response.Fail<string>("contact not found", HttpStatusCode.NotFound);
         }
         
         if (request.ContactId == request.UserId)
         {
-            Response.Fail<string>("you can't add yourself");
+            Response.Fail<string>("you can't add yourself", HttpStatusCode.BadRequest);
         }
 
         var contactEntity = new ContactEntity
