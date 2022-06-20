@@ -19,45 +19,73 @@ namespace Messenger.Presentation.Controllers
     {
         public MessageController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
         
+        /// <summary>
+        /// Get messages from chat
+        /// </summary>
+        /// <param name="chatId">Chat's ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Status codes: 200</returns>
         [HttpGet("get")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetMessages([FromQuery]GetMessagesRequest getMessagesRequest)
+        public async Task<IActionResult> GetMessages([FromQuery]Guid chatId, CancellationToken cancellationToken)
         {
-            var getMessagesQuery = _mapper.Map<GetMessagesQuery>(getMessagesRequest);
+            var getMessagesQuery = new GetMessagesQuery
+            {
+                ChatId = chatId
+            };
 
-            return await Request(getMessagesQuery);
+            return await Request(getMessagesQuery, cancellationToken);
         }
 
+        /// <summary>
+        /// Send message
+        /// </summary>
+        /// <param name="request">Message text and chat's ID</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Status codes: 200, 422, 400</returns>
         [HttpPost("send")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest sendMessageRequest)
+        public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest request, CancellationToken cancellationToken)
         {
-            var sendMessageCommand = _mapper.Map<SendMessageCommand>(sendMessageRequest);
+            var sendMessageCommand = _mapper.Map<SendMessageCommand>(request);
 
-            return await Request(sendMessageCommand);
+            return await Request(sendMessageCommand, cancellationToken);
         }
 
+        /// <summary>
+        /// Delete message
+        /// </summary>
+        /// <param name="request">Message's and chat's IDs</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Status codes: 200, 404, 422</returns>
         [HttpDelete("delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteMessage([FromBody] DeleteMessageRequest deleteMessageRequest)
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> DeleteMessage([FromBody] DeleteMessageRequest request, CancellationToken cancellationToken)
         {
-            var deleteMessageCommand = _mapper.Map<DeleteMessageCommand>(deleteMessageRequest);
+            var deleteMessageCommand = _mapper.Map<DeleteMessageCommand>(request);
 
-            return await Request(deleteMessageCommand);
+            return await Request(deleteMessageCommand, cancellationToken);
         }
 
+        /// <summary>
+        /// Edit message
+        /// </summary>
+        /// <param name="request">Message's and chat's IDs</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Status codes: 200, 404, 422</returns>
         [HttpPut("edit")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> EditMessage([FromBody] EditMessageRequest editMessageRequest)
+        public async Task<IActionResult> EditMessage([FromBody] EditMessageRequest request, CancellationToken cancellationToken)
         {
-            var editMessageCommand = _mapper.Map<EditMessageCommand>(editMessageRequest);
+            var editMessageCommand = _mapper.Map<EditMessageCommand>(request);
 
-            return await Request(editMessageCommand);
+            return await Request(editMessageCommand, cancellationToken);
         }
 
     }

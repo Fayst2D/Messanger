@@ -18,30 +18,52 @@ namespace Messenger.Presentation.Controllers
     {
         public UserChatController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
 
+        /// <summary>
+        /// Get all user's chats
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Status codes: 200</returns>
         [HttpGet("chats")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserChats()
+        public async Task<IActionResult> GetUserChats(CancellationToken cancellationToken)
         {
-            return await Request(new GetUserChatsQuery());
+            return await Request(new GetUserChatsQuery(), cancellationToken);
         }
 
+        /// <summary>
+        /// Create public channel
+        /// </summary>
+        /// <param name="request">CreateChannelRequest</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Status codes: 200, 422</returns>
         [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> CreateChannel([FromBody]CreateChannelRequest createChannelRequest)
+        public async Task<IActionResult> CreateChannel([FromBody]CreateChannelRequest request, CancellationToken cancellationToken)
         {
-            var createChannelCommand = _mapper.Map<CreateChannelCommand>(createChannelRequest);
-            return await Request(createChannelCommand);
+            var createChannelCommand = _mapper.Map<CreateChannelCommand>(request);
+            return await Request(createChannelCommand, cancellationToken);
         }
 
+        /// <summary>
+        /// Joins to channel by chat's ID
+        /// </summary>
+        /// <param name="chatId">Chat's ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Status codes: 200, 400, 422, 404</returns>
         [HttpPost("join")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> JoinChannel([FromBody]JoinChannelRequest joinChannelRequest)
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> JoinChannel([FromQuery]Guid chatId, CancellationToken cancellationToken)
         {
-            var joinChannelCommand = _mapper.Map<JoinChannelCommand>(joinChannelRequest);       
-            return await Request(joinChannelCommand);
+            var joinChannelCommand = new JoinChannelCommand
+            {
+                ChatId = chatId
+            }; 
+            
+            return await Request(joinChannelCommand, cancellationToken);
         }
         
     }

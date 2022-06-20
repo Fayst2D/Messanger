@@ -1,7 +1,10 @@
-﻿namespace Messenger.BusinessLogic.Commands.Messages.Send;
+﻿using System.ComponentModel;
+
+namespace Messenger.BusinessLogic.Commands.Messages.Send;
 
 public class SendMessageRequest
 {
-    public string Message { get; set; }
+    [DefaultValue("message")]
+    public string MessageText { get; set; }
     public Guid ChatId { get; set; }
 }

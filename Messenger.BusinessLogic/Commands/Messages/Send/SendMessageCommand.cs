@@ -5,6 +5,6 @@ namespace Messenger.BusinessLogic.Commands.Messages.Send;
 
 public class SendMessageCommand : BaseRequest, IRequest<Response<Message>>
 {
-    public string Message { get; set; }
+    public string MessageText { get; set; }
     public Guid ChatId { get; set; }
 }

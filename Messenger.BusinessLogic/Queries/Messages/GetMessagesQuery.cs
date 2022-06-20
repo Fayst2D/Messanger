@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Queries.Messages
 {
-    public class GetMessagesRequest
-    {
-        public Guid ChatId { get; set; }
-    }
+
     public class GetMessagesQuery : BaseRequest, IRequest<Response<IEnumerable<Message>>>
     {
         public Guid ChatId { get; set; }

@@ -35,7 +35,7 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
             UserId = request.UserId,
             ChatId = request.ChatId,
             CreatedAt = DateTime.Now,
-            MessageText = request.Message
+            MessageText = request.MessageText
         };
 
         _context.Messages.Add(messageEntity);

@@ -6,6 +6,8 @@ public class CreateChannelCommandValidator : AbstractValidator<CreateChannelComm
 {
     public CreateChannelCommandValidator()
     {
-        RuleFor(x => x.Title).Length(1, 50).NotEmpty();
+        RuleFor(x => x.Title)
+            .Length(1, 50)
+            .NotEmpty();
     }
 }

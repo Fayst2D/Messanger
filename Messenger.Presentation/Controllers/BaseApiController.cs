@@ -18,9 +18,9 @@ public class BaseApiController : ControllerBase
     }
 
     [NonAction]
-    protected async Task<IActionResult> Request<T>(IRequest<Response<T>> request) where T : class
+    protected async Task<IActionResult> Request<T>(IRequest<Response<T>> request, CancellationToken cancellationToken = default) where T : class
     {
-        var response = await _mediator.Send(request);
+        var response = await _mediator.Send(request, cancellationToken);
 
         return response.StatusCode switch
         {
