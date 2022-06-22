@@ -2,6 +2,7 @@
 using MediatR;
 using Messenger.BusinessLogic.Commands.Limits;
 using Messenger.BusinessLogic.Commands.Limits.LimitUser;
+using Messenger.BusinessLogic.Commands.Limits.RemoveUserLimit;
 using Messenger.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -64,5 +65,23 @@ public class LimitControllers : BaseApiController
         };
         
         return await Request(muteUserCommand, cancellationToken);
+    }
+
+    /// <summary>
+    /// Unban or unmute user
+    /// </summary>
+    /// <param name="request">Limited user's and chat's IDs</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200, 404, 400, 422</returns>
+    [HttpDelete("remove")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RemoveUserLimit([FromBody] RemoveUserLimitRequest request, CancellationToken cancellationToken)
+    {
+        var removeUserLimitCommand = _mapper.Map<RemoveUserLimitCommand>(request);
+
+        return await Request(removeUserLimitCommand, cancellationToken);
     }
 }

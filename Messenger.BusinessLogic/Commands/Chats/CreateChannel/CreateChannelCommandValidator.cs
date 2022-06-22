@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Messenger.BusinessLogic.Commands.UserChats.CreateChannel;
+namespace Messenger.BusinessLogic.Commands.Chats.CreateChannel;
 
 public class CreateChannelCommandValidator : AbstractValidator<CreateChannelCommand>
 {

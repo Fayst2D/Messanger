@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Messenger.BusinessLogic.Commands.UserChats.CreateChannel;
+namespace Messenger.BusinessLogic.Commands.Chats.CreateChannel;
 
 public class CreateChannelRequest
 {

@@ -4,7 +4,7 @@ using Messenger.Data;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
 
-namespace Messenger.BusinessLogic.Commands.UserChats.CreateChannel;
+namespace Messenger.BusinessLogic.Commands.Chats.CreateChannel;
 
 
 public class CreateChannelHandler : IRequestHandler<CreateChannelCommand, Response<Chat>>

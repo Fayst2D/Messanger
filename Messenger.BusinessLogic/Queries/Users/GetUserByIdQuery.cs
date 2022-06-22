@@ -29,7 +29,6 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery,Response<User
             .Select(userEntity => new User
             {
                 Email = userEntity.Email,
-                Password = userEntity.Password,
                 Username = userEntity.Username
             }).SingleOrDefaultAsync(user => user.UserId == request.UserId, cancellationToken);
 

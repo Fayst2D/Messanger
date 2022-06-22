@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using AutoMapper;
 using MediatR;
-using Messenger.BusinessLogic.Commands.UserChats.CreateChannel;
 using Messenger.BusinessLogic.Commands.UserChats.JoinChannel;
 using Messenger.BusinessLogic.Queries.UserChats;
 using Microsoft.AspNetCore.Authorization;
@@ -30,20 +29,7 @@ namespace Messenger.Presentation.Controllers
             return await Request(new GetUserChatsQuery(), cancellationToken);
         }
 
-        /// <summary>
-        /// Create public channel
-        /// </summary>
-        /// <param name="request">CreateChannelRequest</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Status codes: 200, 422</returns>
-        [HttpPost("create")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> CreateChannel([FromBody]CreateChannelRequest request, CancellationToken cancellationToken)
-        {
-            var createChannelCommand = _mapper.Map<CreateChannelCommand>(request);
-            return await Request(createChannelCommand, cancellationToken);
-        }
+        
 
         /// <summary>
         /// Joins to channel by chat's ID
@@ -65,6 +51,25 @@ namespace Messenger.Presentation.Controllers
             
             return await Request(joinChannelCommand, cancellationToken);
         }
+        
+        /// <summary>
+        /// Get users by chat
+        /// </summary>
+        /// <param name="chatId">Chat's ID</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Status codes: 200</returns>
+        [HttpGet("users")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUsersByChat([FromQuery] Guid chatId, CancellationToken cancellationToken)
+        {
+            var getUsersChatByChatQuery = new GetUsersByChatQuery
+            {
+                ChatId = chatId
+            };
+
+            return await Request(getUsersChatByChatQuery, cancellationToken);
+        }
+        
         
     }
 }

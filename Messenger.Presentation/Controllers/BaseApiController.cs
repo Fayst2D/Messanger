@@ -8,7 +8,7 @@ namespace Messenger.Presentation.Controllers;
 
 public class BaseApiController : ControllerBase
 {
-    protected readonly IMediator _mediator;
+    private readonly IMediator _mediator;
     protected readonly IMapper _mapper;
 
     public BaseApiController(IMediator mediator, IMapper mapper)

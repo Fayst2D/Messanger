@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Messenger.BusinessLogic.Models;
 
-namespace Messenger.BusinessLogic.Commands.UserChats.CreateChannel;
+namespace Messenger.BusinessLogic.Commands.Chats.CreateChannel;
 
 public class CreateChannelCommand : BaseRequest, IRequest<Response<Chat>>
 {
