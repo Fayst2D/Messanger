@@ -27,7 +27,7 @@ public class EditMessageHandler : IRequestHandler<EditMessageCommand, Response<M
 
         if (chatEntity == null)
         {
-            return Response.Fail<Message>("chat not found", HttpStatusCode.NotFound);
+            return Response.Fail<Message>("Chat not found", HttpStatusCode.NotFound);
         }
 
         var messageEntity = chatEntity.Messages.First(x => x.Id == request.MessageId);

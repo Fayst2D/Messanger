@@ -26,7 +26,7 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
 
         if (muteEntity != null)
         {
-            return Response.Fail<Message>($"you will be unmute on {muteEntity.UnLimitedAt}", HttpStatusCode.BadRequest);
+            return Response.Fail<Message>($"You will be unmute on {muteEntity.UnLimitedAt}", HttpStatusCode.BadRequest);
         }
 
         var messageEntity = new MessageEntity

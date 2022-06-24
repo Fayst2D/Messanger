@@ -41,7 +41,7 @@ namespace Messenger.Presentation.Controllers
         /// Send message
         /// </summary>
         /// <param name="request">Message text and chat's ID</param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Status codes: 200, 422, 400</returns>
         [HttpPost("send")]
         [ProducesResponseType(StatusCodes.Status200OK)]

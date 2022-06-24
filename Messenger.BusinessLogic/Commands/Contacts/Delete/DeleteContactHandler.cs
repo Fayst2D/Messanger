@@ -28,7 +28,7 @@ public class DeleteContactHandler : IRequestHandler<DeleteContactCommand, Respon
 
         if (contactEntity == null || mirrorContactEntity == null)
         {
-            return Response.Fail<string>("contact not found",HttpStatusCode.NotFound);
+            return Response.Fail<string>("Contact not found",HttpStatusCode.NotFound);
         }
         
         _context.Remove(contactEntity);
@@ -36,6 +36,6 @@ public class DeleteContactHandler : IRequestHandler<DeleteContactCommand, Respon
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Response.Ok("Ok", "contact deleted");
+        return Response.Ok("Ok", "Contact deleted");
     }
 }

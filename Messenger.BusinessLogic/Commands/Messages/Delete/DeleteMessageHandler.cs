@@ -27,13 +27,13 @@ public class DeleteMessageHandler : IRequestHandler<DeleteMessageCommand, Respon
 
         if (chatEntity == null)
         {
-            Response.Fail<Message>("chat not found", HttpStatusCode.NotFound);
+            return Response.Fail<Message>("Chat not found", HttpStatusCode.NotFound);
         }
 
         var messageEntity = chatEntity.Messages.First(x => x.Id == request.MessageId);
 
         _context.Messages.Remove(messageEntity);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         var message = new Message
         {

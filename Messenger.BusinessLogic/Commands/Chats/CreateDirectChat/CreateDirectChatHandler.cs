@@ -25,12 +25,12 @@ public class CreateDirectChatHandler : IRequestHandler<CreateDirectChatCommand, 
 
         if (partner == null)
         {
-            return Response.Fail<Chat>("partner not found", HttpStatusCode.NotFound);
+            return Response.Fail<Chat>("Partner not found", HttpStatusCode.NotFound);
         }
 
         if (request.UserId == request.PartnerId)
         {
-            return Response.Fail<Chat>("you can't add yourself", HttpStatusCode.Conflict);
+            return Response.Fail<Chat>("You can't add yourself", HttpStatusCode.Conflict);
         }
 
         var userDirectChats = await _context.Chats

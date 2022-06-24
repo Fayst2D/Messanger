@@ -31,7 +31,7 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
 
             if (DateTime.Compare(banEntity.LimitedAt,banEntity.UnLimitedAt) >= 0)
             {
-                return Response.Fail<Chat>($"you will unban on {banEntity.UnLimitedAt}", HttpStatusCode.BadRequest);
+                return Response.Fail<Chat>($"You will unban on {banEntity.UnLimitedAt}", HttpStatusCode.BadRequest);
             }
             
             _context.UserLimits.Remove(banEntity);
@@ -42,7 +42,7 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
 
         if (isJoined)
         {
-            return Response.Fail<Chat>("AlreadyJoined", HttpStatusCode.Conflict);
+            return Response.Fail<Chat>("You are already joined", HttpStatusCode.Conflict);
         }
         
         var chatEntity = await _context.Chats
@@ -51,7 +51,7 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
 
         if (chatEntity == null)
         {
-            return Response.Fail<Chat>("ChatNotFound",HttpStatusCode.NotFound);
+            return Response.Fail<Chat>("Chat not found",HttpStatusCode.NotFound);
         }
 
         chatEntity.MembersCount++;

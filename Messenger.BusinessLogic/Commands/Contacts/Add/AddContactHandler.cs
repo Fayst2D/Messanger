@@ -23,12 +23,12 @@ public class AddContactHandler : IRequestHandler<AddContactCommand, Response<str
 
         if (!isContactExists)
         {
-            return Response.Fail<string>("contact not found", HttpStatusCode.NotFound);
+            return Response.Fail<string>("Contact not found", HttpStatusCode.NotFound);
         }
         
         if (request.ContactId == request.UserId)
         {
-            Response.Fail<string>("you can't add yourself", HttpStatusCode.BadRequest);
+            Response.Fail<string>("You can't add yourself", HttpStatusCode.BadRequest);
         }
 
         var contactEntity = new ContactEntity
@@ -51,6 +51,6 @@ public class AddContactHandler : IRequestHandler<AddContactCommand, Response<str
 
         await _context.SaveChangesAsync(cancellationToken);
         
-        return Response.Ok<string>("Ok","contact added");
+        return Response.Ok<string>("Ok","Contact added");
     }
 }

@@ -6,7 +6,6 @@ public class JoinChannelCommandValidator : AbstractValidator<JoinChannelCommand>
 {
     public JoinChannelCommandValidator()
     {
-        RuleFor(x => x.ChatId)
-            .NotEmpty();
+        RuleFor(x => x.ChatId).NotEmpty();
     }
 }

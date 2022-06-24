@@ -25,12 +25,12 @@ public class RemoveUserLimitHandler : IRequestHandler<RemoveUserLimitCommand, Re
 
         if (userChat == null)
         {
-            return Response.Fail<string>("chat not found", HttpStatusCode.NotFound);
+            return Response.Fail<string>("Chat not found", HttpStatusCode.NotFound);
         }
         
         if (userChat.RoleId < (int)UserRoles.Administrator)
         {
-            return Response.Fail<string>("you don't have enough rights", HttpStatusCode.BadRequest);
+            return Response.Fail<string>("You don't have enough rights", HttpStatusCode.BadRequest);
         }
 
         
@@ -41,13 +41,18 @@ public class RemoveUserLimitHandler : IRequestHandler<RemoveUserLimitCommand, Re
 
         if (userLimit == null)
         {
-            return Response.Fail<string>("limited user not found",HttpStatusCode.NotFound);
+            return Response.Fail<string>("Limited user not found",HttpStatusCode.NotFound);
         }
 
         _context.UserLimits.Remove(userLimit);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Response.Ok<string>("Ok", "user successfully unbanned/unmuted");
+        if (userLimit.LimitType == (int)LimitTypes.Ban)
+        {
+            return Response.Ok<string>("Ok", "User unbanned");
+        }
+
+        return Response.Ok<string>("Ok", "User unmuted");
     }
 }
 

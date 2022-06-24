@@ -23,7 +23,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Response
 
         if (emailTaken)
         {
-            return Response.Fail<string>("Email already taken",HttpStatusCode.Conflict);
+            return Response.Fail<string>("Email is already taken",HttpStatusCode.Conflict);
         }
 
         var userEntity = new UserEntity
@@ -37,7 +37,7 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Response
         _context.Users.Add(userEntity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return Response.Ok("Ok", "UserRegistered");
+        return Response.Ok("Ok", "User registered");
     }
 }
 

@@ -44,6 +44,12 @@ public class ChatController : BaseApiController
         return await Request(createChannelCommand, cancellationToken);
     }
 
+    /// <summary>
+    /// Create direct chat
+    /// </summary>
+    /// <param name="partnerId">Partner's ID</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200</returns>
     [HttpPost("chat")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateDirectChat([FromQuery] Guid partnerId, CancellationToken cancellationToken)
