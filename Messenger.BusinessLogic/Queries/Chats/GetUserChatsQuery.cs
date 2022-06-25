@@ -3,7 +3,7 @@ using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Messenger.BusinessLogic.Queries.UserChats;
+namespace Messenger.BusinessLogic.Queries.Chats;
 
 public class GetUserChatsQuery : BaseRequest, IRequest<Response<IEnumerable<Chat>>>
 {

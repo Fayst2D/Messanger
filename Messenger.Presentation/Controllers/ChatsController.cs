@@ -3,14 +3,30 @@ using MediatR;
 using Messenger.BusinessLogic.Commands.Chats.CreateChannel;
 using Messenger.BusinessLogic.Commands.Chats.CreateDirectChat;
 using Messenger.BusinessLogic.Queries.Chats;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Messenger.Presentation.Controllers;
 
-public class ChatController : BaseApiController
+[Authorize]
+[ApiController]
+[Route("api/chats")]
+public class ChatsController : BaseApiController
 {
-    public ChatController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
+    public ChatsController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
 
+    /// <summary>
+    /// Get all user's chats
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200</returns>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetUserChats(CancellationToken cancellationToken)
+    {
+        return await Request(new GetUserChatsQuery(), cancellationToken);
+    }
+    
     /// <summary>
     /// Search chats by title
     /// </summary>
@@ -35,7 +51,7 @@ public class ChatController : BaseApiController
     /// <param name="request">CreateChannelRequest</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Status codes: 200, 422</returns>
-    [HttpPost("channel")]
+    [HttpPost("create-channel")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> CreateChannel([FromBody]CreateChannelRequest request, CancellationToken cancellationToken)
@@ -50,9 +66,9 @@ public class ChatController : BaseApiController
     /// <param name="partnerId">Partner's ID</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Status codes: 200</returns>
-    [HttpPost("chat")]
+    [HttpPost("{partnerId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateDirectChat([FromQuery] Guid partnerId, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateDirectChat([FromRoute] Guid partnerId, CancellationToken cancellationToken)
     {
         var createDirectChatCommand = new CreateDirectChatCommand
         {

@@ -13,11 +13,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace Messenger.Presentation.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/messages")]
     [Authorize]
-    public class MessageController : BaseApiController
+    public class MessagesController : BaseApiController
     {
-        public MessageController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
+        public MessagesController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
         
         /// <summary>
         /// Get messages from chat
@@ -25,9 +25,9 @@ namespace Messenger.Presentation.Controllers
         /// <param name="chatId">Chat's ID</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Status codes: 200</returns>
-        [HttpGet("get")]
+        [HttpGet("{chatId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetMessages([FromQuery]Guid chatId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetMessages([FromRoute]Guid chatId, CancellationToken cancellationToken)
         {
             var getMessagesQuery = new GetMessagesQuery
             {

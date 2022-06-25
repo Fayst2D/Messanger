@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Messenger.Presentation.Controllers;
 
+
+
 public class BaseApiController : ControllerBase
 {
     private readonly IMediator _mediator;

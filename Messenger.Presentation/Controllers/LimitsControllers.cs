@@ -3,6 +3,7 @@ using MediatR;
 using Messenger.BusinessLogic.Commands.Limits;
 using Messenger.BusinessLogic.Commands.Limits.LimitUser;
 using Messenger.BusinessLogic.Commands.Limits.RemoveUserLimit;
+using Messenger.BusinessLogic.Queries.Limits;
 using Messenger.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,32 @@ using Microsoft.AspNetCore.Mvc;
 namespace Messenger.Presentation.Controllers;
 
 [Authorize]
-[ApiController]
-[Route("[controller]")]
+[Route("api/limits")]
 public class LimitControllers : BaseApiController
 {
     public LimitControllers(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
+
+
+    /// <summary>
+    /// Get banned/muted users by chat
+    /// </summary>
+    /// <param name="chatId">Chat's ID</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200, 404, 400</returns>
+    [HttpGet("{chatId:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetLimitedUsers([FromRoute] Guid chatId, CancellationToken cancellationToken)
+    {
+        var getLimitedUsersQuery = new GetLimitedUsersQuery
+        {
+            ChatId = chatId
+        };
+
+        return await Request(getLimitedUsersQuery, cancellationToken);
+    }
+    
     
     /// <summary>
     /// Ban user for some time

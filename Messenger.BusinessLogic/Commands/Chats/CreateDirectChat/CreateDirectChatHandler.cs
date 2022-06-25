@@ -56,8 +56,8 @@ public class CreateDirectChatHandler : IRequestHandler<CreateDirectChatCommand, 
 
         var userChats = new []
         {
-            new UserChatEntity { ChatId = chatEntity.Id, RoleId = (int)UserRoles.User, UserId = request.UserId },
-            new UserChatEntity { ChatId = chatEntity.Id, RoleId = (int)UserRoles.User, UserId = request.PartnerId }
+            new UserChatEntity { ChatId = chatEntity.Id, RoleId = (int)UserChatRoles.User, UserId = request.UserId },
+            new UserChatEntity { ChatId = chatEntity.Id, RoleId = (int)UserChatRoles.User, UserId = request.PartnerId }
         };
 
         _context.Chats.Add(chatEntity);

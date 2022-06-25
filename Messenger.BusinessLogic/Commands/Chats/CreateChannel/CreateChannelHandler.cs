@@ -33,7 +33,7 @@ public class CreateChannelHandler : IRequestHandler<CreateChannelCommand, Respon
             Id = Guid.NewGuid(),
             ChatId = channel.Id,
             UserId = request.UserId,
-            RoleId = (int)UserRoles.Owner
+            RoleId = (int)UserChatRoles.Owner
         });
 
         await _context.SaveChangesAsync(cancellationToken);

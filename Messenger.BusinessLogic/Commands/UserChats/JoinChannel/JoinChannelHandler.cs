@@ -61,7 +61,7 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
         {
             Id = Guid.NewGuid(),
             ChatId = request.ChatId,
-            RoleId = (int)UserRoles.User,
+            RoleId = (int)UserChatRoles.User,
             UserId = request.UserId
         });
 

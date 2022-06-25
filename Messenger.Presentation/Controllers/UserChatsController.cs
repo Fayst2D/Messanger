@@ -12,23 +12,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace Messenger.Presentation.Controllers
 {
     [Authorize]
-    [Route("chat")]
+    [Route("api/user-chats/{chatId:guid}")]
     [ApiController]
-    public class UserChatController : BaseApiController
+    public class UserChatsController : BaseApiController
     {
-        public UserChatController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
+        public UserChatsController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
 
-        /// <summary>
-        /// Get all user's chats
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Status codes: 200</returns>
-        [HttpGet("chats")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserChats(CancellationToken cancellationToken)
-        {
-            return await Request(new GetUserChatsQuery(), cancellationToken);
-        }
+        
         
 
         /// <summary>
@@ -37,12 +27,12 @@ namespace Messenger.Presentation.Controllers
         /// <param name="chatId">Chat's ID</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Status codes: 200, 400, 422, 404</returns>
-        [HttpPost("join")]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> JoinChannel([FromQuery]Guid chatId, CancellationToken cancellationToken)
+        public async Task<IActionResult> JoinChannel([FromRoute]Guid chatId, CancellationToken cancellationToken)
         {
             var joinChannelCommand = new JoinChannelCommand
             {
@@ -58,9 +48,9 @@ namespace Messenger.Presentation.Controllers
         /// <param name="chatId">Chat's ID</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Status codes: 200</returns>
-        [HttpGet("users")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUsersByChat([FromQuery] Guid chatId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUsersByChat([FromRoute] Guid chatId, CancellationToken cancellationToken)
         {
             var getUsersChatByChatQuery = new GetUsersByChatQuery
             {
@@ -76,11 +66,11 @@ namespace Messenger.Presentation.Controllers
         /// <param name="chatId">Chat's ID</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Status codes: 200, 404, 400</returns>
-        [HttpDelete("leave")]
+        [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> LeaveChat([FromQuery] Guid chatId, CancellationToken cancellationToken)
+        public async Task<IActionResult> LeaveChat([FromRoute] Guid chatId, CancellationToken cancellationToken)
         {
             var leaveChatCommand = new LeaveChatCommand
             {

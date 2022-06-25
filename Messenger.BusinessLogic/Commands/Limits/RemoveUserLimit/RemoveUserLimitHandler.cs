@@ -28,7 +28,7 @@ public class RemoveUserLimitHandler : IRequestHandler<RemoveUserLimitCommand, Re
             return Response.Fail<string>("Chat not found", HttpStatusCode.NotFound);
         }
         
-        if (userChat.RoleId < (int)UserRoles.Administrator)
+        if (userChat.RoleId < (int)UserChatRoles.Administrator)
         {
             return Response.Fail<string>("You don't have enough rights", HttpStatusCode.BadRequest);
         }

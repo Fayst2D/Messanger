@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace Messenger.Presentation.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/users")]
     [Authorize]
-    public class UserController : BaseApiController
+    public class UsersController : BaseApiController
     {
-        public UserController(IMediator mediator,IMapper mapper) : base(mediator,mapper) { }
+        public UsersController(IMediator mediator,IMapper mapper) : base(mediator,mapper) { }
 
         /// <summary>
         /// Register a new user.
@@ -34,14 +34,19 @@ namespace Messenger.Presentation.Controllers
         /// <summary>
         /// Get user by ID
         /// </summary>
-        /// <param name="getUserByIdQuery">User ID</param>
+        /// <param name="userId">User's ID</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Status codes: 404, 200</returns>
-        [HttpGet("get")]
+        [HttpGet("{userId:guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserById([FromBody] GetUserByIdQuery getUserByIdQuery, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserById([FromRoute]Guid userId, CancellationToken cancellationToken)
         {
+            var getUserByIdQuery = new GetUserByIdQuery
+            {
+                UserId = userId
+            };
+            
             return await Request(getUserByIdQuery, cancellationToken);
         }
     }

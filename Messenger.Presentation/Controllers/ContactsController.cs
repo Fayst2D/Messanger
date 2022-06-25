@@ -12,16 +12,16 @@ namespace Messenger.Presentation.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("[controller]")]
-public class ContactController : BaseApiController
+[Route("api/contacts")]
+public class ContactsController : BaseApiController
 {
-    public ContactController(IMediator mediator, IMapper mapper) : base(mediator, mapper) {}
+    public ContactsController(IMediator mediator, IMapper mapper) : base(mediator, mapper) {}
     
     /// <summary>
-    /// Get contacts
+    /// Get user's contacts
     /// </summary>
     /// <returns>Status codes: 200</returns>
-    [HttpGet("get")]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetContacts()
     {
@@ -34,7 +34,7 @@ public class ContactController : BaseApiController
     /// <param name="contactId">ID of adding contact</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Status codes: 200, 400, 404, 422</returns>
-    [HttpPost("add")]
+    [HttpPost("{contactId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -55,7 +55,7 @@ public class ContactController : BaseApiController
     /// <param name="contactId">Contact's ID</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Status codes: 200, 404, 422</returns>
-    [HttpDelete("delete")]
+    [HttpDelete("{contactId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]

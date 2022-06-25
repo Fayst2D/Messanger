@@ -30,7 +30,7 @@ public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<strin
             return Response.Fail<string>("Chat not found", HttpStatusCode.NotFound);
         }
 
-        if (userChatEntity.RoleId == (int)UserRoles.Owner)
+        if (userChatEntity.RoleId == (int)UserChatRoles.Owner)
         {
             return Response.Fail<string>("Owner can't leave chat", HttpStatusCode.BadRequest);
         }
