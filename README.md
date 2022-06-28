@@ -7,6 +7,5 @@
 - [ ] Add SignalR
 - [ ] Add more CRUDs
 - [x] Add AutoMapper
-- [ ] Add Tests
 - [ ] Deploy
-- [ ] add images and files support
+- [ ] add files support
