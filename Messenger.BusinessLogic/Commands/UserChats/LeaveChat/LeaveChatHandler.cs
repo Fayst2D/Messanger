@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using MediatR;
+using Messenger.BusinessLogic.Hubs;
 using Messenger.Data;
 using Messenger.Domain.Enums;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Commands.UserChats.LeaveChat;
@@ -9,10 +11,12 @@ namespace Messenger.BusinessLogic.Commands.UserChats.LeaveChat;
 public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<string>>
 {
     private readonly DatabaseContext _context;
+    //private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
 
     public LeaveChatHandler(DatabaseContext context)
     {
         _context = context;
+        //_hubContext = hubContext;
     }
 
     public async Task<Response<string>> Handle(LeaveChatCommand request, CancellationToken cancellationToken)
@@ -58,6 +62,7 @@ public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<strin
         _context.Chats.Update(chatEntity);
 
         await _context.SaveChangesAsync(cancellationToken);
+        
         
         return Response.Ok<string>("Ok", "You leaved the channel");
     }

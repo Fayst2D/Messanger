@@ -15,6 +15,7 @@ using Messenger.Data;
 using Messenger.Domain.Constants;
 using FluentValidation;
 using Messenger.BusinessLogic.Commands.Authentication.Login;
+using Messenger.BusinessLogic.Hubs;
 using Messenger.Presentation.Middlewares;
 
 
@@ -109,9 +110,18 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<NotifyHub>("/notify");
+});
+    
+
 
 app.Run();

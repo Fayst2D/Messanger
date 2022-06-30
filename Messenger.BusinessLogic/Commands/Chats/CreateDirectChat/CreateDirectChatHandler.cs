@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using MediatR;
+using Messenger.BusinessLogic.Hubs;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Commands.Chats.CreateDirectChat;
@@ -11,10 +13,12 @@ namespace Messenger.BusinessLogic.Commands.Chats.CreateDirectChat;
 public class CreateDirectChatHandler : IRequestHandler<CreateDirectChatCommand, Response<Chat>>
 {
     private readonly DatabaseContext _context;
+    //private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
 
     public CreateDirectChatHandler(DatabaseContext context)
     {
         _context = context;
+        //_hubContext = hubContext;
     }
     
     public async Task<Response<Chat>> Handle(CreateDirectChatCommand request, CancellationToken cancellationToken)
@@ -72,6 +76,10 @@ public class CreateDirectChatHandler : IRequestHandler<CreateDirectChatCommand, 
             MembersCount = chatEntity.MembersCount,
             Title = chatEntity.Title
         };
+        
+        //await _hubContext.Clients.User(request.UserId.ToString()).AddToGroup(chat.Id.ToString());
+        //await _hubContext.Clients.User(request.PartnerId.ToString()).AddToGroup(chat.Id.ToString());
+        //await _hubContext.Clients.Group(chat.Id.ToString()).UpdateUserChatsAsync(chat);
         
         return Response.Ok<Chat>("Ok",chat);
 

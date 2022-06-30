@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using MediatR;
+using Messenger.BusinessLogic.Hubs;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -13,10 +15,12 @@ namespace Messenger.BusinessLogic.Commands.UserChats.JoinChannel;
 public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<Chat>>
 {
     private readonly DatabaseContext _context;
+    //private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
 
     public JoinChannelHandler(DatabaseContext context)
     {
         _context = context;
+        //_hubContext = hubContext;
     }
     
     public async Task<Response<Chat>> Handle(JoinChannelCommand request, CancellationToken cancellationToken)
@@ -73,6 +77,9 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
             MembersCount = chatEntity.MembersCount,
             Title = chatEntity.Title
         };
+        
+        //await _hubContext.Clients.User(request.UserId.ToString()).AddToGroup(chat.Id.ToString());
+        //await _hubContext.Clients.User(request.UserId.ToString()).UpdateUserChatsAsync(chat);
 
         return Response.Ok("Ok", chat);
     }

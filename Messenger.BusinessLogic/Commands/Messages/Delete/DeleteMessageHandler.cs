@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using MediatR;
+using Messenger.BusinessLogic.Hubs;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Commands.Messages.Delete;
@@ -9,10 +11,12 @@ namespace Messenger.BusinessLogic.Commands.Messages.Delete;
 public class DeleteMessageHandler : IRequestHandler<DeleteMessageCommand, Response<Message>>
 {
     private readonly DatabaseContext _context;
+    private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
 
-    public DeleteMessageHandler(DatabaseContext context)
+    public DeleteMessageHandler(DatabaseContext context, IHubContext<NotifyHub, IHubClient> hubContext)
     {
         _context = context;
+        _hubContext = hubContext;
     }
 
     public async Task<Response<Message>> Handle(DeleteMessageCommand request, CancellationToken cancellationToken)
@@ -43,6 +47,8 @@ public class DeleteMessageHandler : IRequestHandler<DeleteMessageCommand, Respon
             MessageText = messageEntity.MessageText,
             UserId = messageEntity.UserId
         };
+
+        await _hubContext.Clients.Group(request.ChatId.ToString()).NotifyOnMessageDeleteAsync(message);
 
         return Response.Ok("Ok", message);
     }

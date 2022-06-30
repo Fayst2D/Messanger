@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using MediatR;
+using Messenger.BusinessLogic.Hubs;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Commands.Messages.Send;
@@ -11,10 +13,12 @@ namespace Messenger.BusinessLogic.Commands.Messages.Send;
 public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<Message>>
 {
     private readonly DatabaseContext _context;
+    private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
 
-    public SendMessageHandler(DatabaseContext context)
+    public SendMessageHandler(DatabaseContext context, IHubContext<NotifyHub, IHubClient> hubContext)
     {
         _context = context;
+        _hubContext = hubContext;
     }
 
     public async Task<Response<Message>> Handle(SendMessageCommand request, CancellationToken cancellationToken)
@@ -49,6 +53,9 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
             CreatedAt = messageEntity.CreatedAt.ToString(),
             MessageText = messageEntity.MessageText
         };
+
+        await _hubContext.Clients.Group(request.ChatId.ToString()).NotifyOnMessageSendAsync(message);
+        
 
         return Response.Ok("Ok", message);
     }
