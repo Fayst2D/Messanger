@@ -12,6 +12,7 @@ namespace Messenger.Domain.Entities
         public Guid UserId { get; set; }
         public Guid ChatId { get; set; }
         public string MessageText { get; set; }
+        public string  Attachment { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public UserEntity User { get; set; }

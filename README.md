@@ -8,4 +8,4 @@
 - [ ] Add more CRUDs
 - [x] Add AutoMapper
 - [ ] Deploy
-- [ ] add files support
+- [x] add files support

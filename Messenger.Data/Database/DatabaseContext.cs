@@ -18,8 +18,8 @@ namespace Messenger.Data
         public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
         public DbSet<UserChatEntity> UserChats { get; set; }
         public DbSet<ContactEntity> Contacts { get; set; }
-
         public DbSet<UserLimitEntity> UserLimits { get; set; }
+        public DbSet<FileEntity> Files { get; set; }
 
         public DatabaseContext(DbContextOptions options) : base(options)
         {
