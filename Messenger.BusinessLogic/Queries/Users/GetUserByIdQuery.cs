@@ -1,14 +1,14 @@
 ﻿using System.Net;
 using MediatR;
-using Messenger.Data;
 using Messenger.BusinessLogic.Models;
+using Messenger.Data.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Queries.Users;
 
 public class GetUserByIdQuery : IRequest<Response<User>>
 {
-    public Guid UserId { get; set; }
+    public Guid UserId { get; init; }
 }
 
 public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery,Response<User>>

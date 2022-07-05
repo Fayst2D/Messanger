@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Net;
-using System.Text.Json;
+﻿using System.Text.Json;
 using FluentValidation;
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 
 // ReSharper disable once CheckNamespace
@@ -63,12 +59,12 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
     {
         return exception switch
         {
-            ValidationException applicationException => "Validation error",
+            ValidationException => "Validation error",
             _ => "Server Error"
         };
     }
 
-    private static IEnumerable<string>? GetErrors(Exception exception)
+    private static IEnumerable<string> GetErrors(Exception exception)
     {
         List<string> errors = new List<string>();
 

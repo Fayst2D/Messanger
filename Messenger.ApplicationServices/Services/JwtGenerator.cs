@@ -1,13 +1,7 @@
-﻿
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Messenger.ApplicationServices.Interfaces;
 
 namespace Messenger.ApplicationServices.Services;
@@ -71,7 +65,7 @@ public class JwtGenerator : IJwtGenerator
         return new IJwtGenerator.TokenPair(accessToken, refreshToken);
     }
 
-    public IDictionary<string, string> ParseToken(string token)
+    public IDictionary<string, string>? ParseToken(string token)
     {
         var tokenValidationParameters = new TokenValidationParameters
         {

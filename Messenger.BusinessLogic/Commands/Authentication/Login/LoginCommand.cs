@@ -7,10 +7,10 @@ public class LoginCommand : IRequest<Response<TokenPair>>
 {
         /// <summary>user's email</summary>
         [DefaultValue("user@gmail.com")]
-        public string Email { get; set; }
-        
+        public string Email { get; set; } = "";
+
         /// <summary>user's password</summary>
         [DefaultValue("123456")]
-        public string Password { get; set; }
+        public string Password { get; set; } = "";
 }
 

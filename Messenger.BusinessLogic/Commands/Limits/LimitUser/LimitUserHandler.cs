@@ -4,6 +4,7 @@ using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using Messenger.Data.Database;
 
 namespace Messenger.BusinessLogic.Commands.Limits.LimitUser;
 

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Messenger.BusinessLogic.Models;
-using Messenger.Data;
+using Messenger.Data.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Queries.Messages
@@ -8,7 +8,7 @@ namespace Messenger.BusinessLogic.Queries.Messages
 
     public class GetMessagesQuery : BaseRequest, IRequest<Response<IEnumerable<Message>>>
     {
-        public Guid ChatId { get; set; }
+        public Guid ChatId { get; init; }
     }
 
     public class GetMessagesHandler : IRequestHandler<GetMessagesQuery, Response<IEnumerable<Message>>>

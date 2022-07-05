@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using MediatR;
 using Messenger.BusinessLogic.Models;
-using Messenger.Data;
+using Messenger.Data.Database;
 using Messenger.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +9,7 @@ namespace Messenger.BusinessLogic.Queries.Limits;
 
 public class GetLimitedUsersQuery : BaseRequest, IRequest<Response<IEnumerable<LimitedUser>>>
 {
-    public Guid ChatId { get; set; }
+    public Guid ChatId { get; init; }
 }
 
 public class GetLimitedUsersHandler : IRequestHandler<GetLimitedUsersQuery, Response<IEnumerable<LimitedUser>>>
@@ -46,7 +46,7 @@ public class GetLimitedUsersHandler : IRequestHandler<GetLimitedUsersQuery, Resp
             .Where(x => x.ChatId == request.ChatId)
             .Select(x => new LimitedUser
             {
-                UserId = x.User.Id,
+                UserId = x.User!.Id,
                 Email = x.User.Email,
                 Username = x.User.Username,
                 LimitType = x.LimitType

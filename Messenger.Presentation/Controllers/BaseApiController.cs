@@ -20,7 +20,7 @@ public class BaseApiController : ControllerBase
     }
 
     [NonAction]
-    protected async Task<IActionResult> Request<T>(IRequest<Response<T>> request, CancellationToken cancellationToken = default) where T : class
+    protected new async Task<IActionResult> Request<T>(IRequest<Response<T>> request, CancellationToken cancellationToken = default) where T : class
     {
         var response = await _mediator.Send(request, cancellationToken);
 

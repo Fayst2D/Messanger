@@ -3,8 +3,6 @@
 public class Contact
 {
     public Guid ContactId { get; set; }
-    
-    public string Username { get; set; }
-    
-    public string Email { get; set; }
+    public string Username { get; init; } = "";
+    public string Email { get; init; } = "";
 }

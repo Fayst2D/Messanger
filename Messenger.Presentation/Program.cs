@@ -3,7 +3,6 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Microsoft.OpenApi.Models;
-using Messanger.Presentation.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
@@ -11,18 +10,19 @@ using Messenger.BusinessLogic.Pipelines;
 using Messenger.ApplicationServices.Interfaces;
 using Messenger.ApplicationServices.Services;
 using Messenger.BusinessLogic.Commands.Users.Register;
-using Messenger.Data;
 using Messenger.Domain.Constants;
 using FluentValidation;
 using Messenger.BusinessLogic.Commands.Authentication.Login;
 using Messenger.BusinessLogic.Hubs;
+using Messenger.Data.Database;
 using Messenger.Presentation.Middlewares;
+using Messenger.Presentation.SwaggerFilters;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = new ConfigurationBuilder()
-    .AddJsonFile($"appsettings.json")
+    .AddJsonFile("appsettings.json")
     .Build();
 // Add services to the container.
 

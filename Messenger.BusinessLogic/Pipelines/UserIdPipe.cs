@@ -1,6 +1,4 @@
-﻿
-using MediatR;
-using Messenger.BusinessLogic;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 
 
@@ -20,7 +18,7 @@ public class UserIdPipe<TIn, TOut> : IPipelineBehavior<TIn,TOut> where TIn : IRe
 
         if (request is BaseRequest baseRequest)
         {
-            var userId = Guid.Parse(_httpContext.User.FindFirst("sub").Value);
+            var userId = Guid.Parse(_httpContext.User.FindFirst("sub")!.Value);
             baseRequest.UserId = userId;
         }
 

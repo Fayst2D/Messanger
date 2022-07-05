@@ -2,7 +2,7 @@
 using MediatR;
 using Messenger.ApplicationServices.Interfaces;
 using Messenger.BusinessLogic.Models;
-using Messenger.Data;
+using Messenger.Data.Database;
 using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Messenger.BusinessLogic.Commands.UserChats.JoinChannel;
 using Messenger.BusinessLogic.Commands.UserChats.LeaveChat;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-// ReSharper disable once CheckNamespace
 namespace Messenger.Presentation.Controllers
 {
     [Authorize]

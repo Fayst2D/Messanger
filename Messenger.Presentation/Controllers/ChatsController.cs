@@ -6,6 +6,7 @@ using Messenger.BusinessLogic.Queries.Chats;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace Messenger.Presentation.Controllers;
 
 [Authorize]

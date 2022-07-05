@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Messenger.BusinessLogic.Models;
-using Messenger.Data;
+using Messenger.Data.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Queries.Chats;
@@ -24,11 +24,11 @@ public class GetUserChatsHandler : IRequestHandler<GetUserChatsQuery, Response<I
         var userChats = await _context.UserChats
             .AsNoTracking()
             .Include(x => x.Chat)
-            .ThenInclude(x => x.Messages)
+            .ThenInclude(x =>  x!.Messages)
             .Where(x => x.UserId == request.UserId)
             .Select(x => new Chat
             {
-                Id = x.Chat.Id,
+                Id = x.Chat!.Id,
                 Title = x.Chat.Title,
                 MembersCount = x.Chat.MembersCount
             }).Take(100).ToListAsync(cancellationToken);

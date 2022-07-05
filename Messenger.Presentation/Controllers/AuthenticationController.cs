@@ -1,12 +1,10 @@
 ﻿using MediatR;
-using Messenger.BusinessLogic.Commands.Authentication;
 using Messenger.BusinessLogic.Commands.Authentication.Login;
 using Messenger.BusinessLogic.Commands.Authentication.RefreshTokens;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-// ReSharper disable once CheckNamespace
+
 namespace Messenger.Presentation.Controllers;
 
 [ApiController]

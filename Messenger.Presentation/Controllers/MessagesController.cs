@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Messenger.BusinessLogic.Commands.Messages.Delete;
 using Messenger.BusinessLogic.Commands.Messages.Edit;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-// ReSharper disable once CheckNamespace
 namespace Messenger.Presentation.Controllers
 {
     [ApiController]

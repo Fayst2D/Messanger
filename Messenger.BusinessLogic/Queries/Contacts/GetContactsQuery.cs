@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Messenger.BusinessLogic.Models;
-using Messenger.Data;
+using Messenger.Data.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Queries.Contacts;
@@ -30,7 +30,7 @@ public class GetContactsHandler : IRequestHandler<GetContactsQuery, Response<IEn
             .Select(x => new Contact
             {
                 ContactId = x.ContactId,
-                Email = x.Contact.Email,
+                Email = x.Contact!.Email,
                 Username = x.Contact.Username
             }).Take(100).ToListAsync(cancellationToken);
 

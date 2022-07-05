@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using MediatR;
 using Messenger.Data;
+using Messenger.Data.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Commands.Contacts.Delete;

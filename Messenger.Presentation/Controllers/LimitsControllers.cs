@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Messenger.BusinessLogic.Commands.Limits;
 using Messenger.BusinessLogic.Commands.Limits.LimitUser;
 using Messenger.BusinessLogic.Commands.Limits.RemoveUserLimit;
 using Messenger.BusinessLogic.Queries.Limits;
@@ -8,7 +7,7 @@ using Messenger.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// ReSharper disable once CheckNamespace
+
 namespace Messenger.Presentation.Controllers;
 
 [Authorize]

@@ -1,14 +1,13 @@
 ﻿using MediatR;
 using Messenger.BusinessLogic.Models;
-using Messenger.Data;
-using Messenger.Domain.Entities;
+using Messenger.Data.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Queries.UserChats;
 
 public class GetUsersByChatQuery : BaseRequest, IRequest<Response<IEnumerable<User>>>
 {
-    public Guid ChatId { get; set; }
+    public Guid ChatId { get; init; }
 }
 
 public class GetUsersByChatHandler : IRequestHandler<GetUsersByChatQuery, Response<IEnumerable<User>>>
@@ -30,7 +29,7 @@ public class GetUsersByChatHandler : IRequestHandler<GetUsersByChatQuery, Respon
             .OrderByDescending(x => x.RoleId)
             .Select(x => new User
             {
-                UserId = x.User.Id,
+                UserId = x.User!.Id,
                 Email = x.User.Email,
                 Username = x.User.Username,
             }).Take(100).ToListAsync(cancellationToken);

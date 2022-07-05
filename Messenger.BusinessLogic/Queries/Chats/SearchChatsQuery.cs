@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Messenger.BusinessLogic.Models;
-using Messenger.Data;
+using Messenger.Data.Database;
 using Messenger.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +8,7 @@ namespace Messenger.BusinessLogic.Queries.Chats;
 
 public class SearchChatsQuery : IRequest<Response<IEnumerable<Chat>>>
 {
-    public string Title { get; set; }
+    public string Title { get; init; } = "";
 }
 
 public class SearchChatsHandler : IRequestHandler<SearchChatsQuery, Response<IEnumerable<Chat>>>

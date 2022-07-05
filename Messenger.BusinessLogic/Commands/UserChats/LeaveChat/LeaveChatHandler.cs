@@ -2,6 +2,7 @@
 using MediatR;
 using Messenger.BusinessLogic.Hubs;
 using Messenger.Data;
+using Messenger.Data.Database;
 using Messenger.Domain.Enums;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;

@@ -2,15 +2,15 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Messanger.Presentation.Filters
-{
-    internal class OpenApiAuthFilter : IOperationFilter
-    {
-        private readonly OpenApiSecurityRequirement _authenticationRequirement;
+namespace Messenger.Presentation.SwaggerFilters;
 
-        public OpenApiAuthFilter() =>
-            _authenticationRequirement = new OpenApiSecurityRequirement
-            {
+internal class OpenApiAuthFilter : IOperationFilter
+{
+    private readonly OpenApiSecurityRequirement _authenticationRequirement;
+
+    public OpenApiAuthFilter() =>
+        _authenticationRequirement = new OpenApiSecurityRequirement
+        {
             {
                 new OpenApiSecurityScheme
                 {
@@ -22,17 +22,16 @@ namespace Messanger.Presentation.Filters
                 },
                 Array.Empty<string>()
             }
-            };
+        };
 
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+        var actionMetadata = context.ApiDescription.ActionDescriptor.EndpointMetadata;
+        var markedWithAuthorize = actionMetadata.Any(metadataItem => metadataItem is AuthorizeAttribute);
+
+        if (markedWithAuthorize)
         {
-            var actionMetadata = context.ApiDescription.ActionDescriptor.EndpointMetadata;
-            var markedWithAuthorize = actionMetadata.Any(metadataItem => metadataItem is AuthorizeAttribute);
-
-            if (markedWithAuthorize)
-            {
-                operation.Security.Add(_authenticationRequirement);
-            }
+            operation.Security.Add(_authenticationRequirement);
         }
     }
 }

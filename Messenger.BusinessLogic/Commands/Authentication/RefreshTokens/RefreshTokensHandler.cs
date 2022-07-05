@@ -1,11 +1,11 @@
 ﻿using System.Net;
 using MediatR;
-using Messenger.Data;
 using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Messenger.ApplicationServices.Interfaces;
 using Messenger.BusinessLogic.Models;
+using Messenger.Data.Database;
 
 namespace Messenger.BusinessLogic.Commands.Authentication.RefreshTokens;
 

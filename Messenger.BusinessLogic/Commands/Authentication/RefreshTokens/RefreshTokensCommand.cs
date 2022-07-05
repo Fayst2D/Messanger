@@ -6,6 +6,6 @@ namespace Messenger.BusinessLogic.Commands.Authentication.RefreshTokens
 {
     public class RefreshTokensCommand : IRequest<Response<TokenPair>>
     {
-        public string RefreshToken { get; set; }
+        public string RefreshToken { get; set; } = "";
     }
 }
