@@ -40,7 +40,8 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
             UserId = request.UserId,
             ChatId = request.ChatId,
             CreatedAt = DateTime.Now,
-            MessageText = request.MessageText
+            MessageText = request.MessageText,
+            Attachment = request.Attachment
         };
 
         _context.Messages.Add(messageEntity);
@@ -52,7 +53,8 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
             UserId = messageEntity.UserId,
             ChatId = messageEntity.ChatId,
             CreatedAt = messageEntity.CreatedAt.ToString(),
-            MessageText = messageEntity.MessageText
+            MessageText = messageEntity.MessageText,
+            Attachment = messageEntity.Attachment
         };
 
         await _hubContext.Clients.Group(request.ChatId.ToString()).NotifyOnMessageSendAsync(message);
