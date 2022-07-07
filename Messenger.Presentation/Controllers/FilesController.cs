@@ -23,7 +23,7 @@ public class FilesController : BaseApiController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UploadFile(List<IFormFile> files, CancellationToken cancellationToken)
+    public async Task<IActionResult> UploadFiles(List<IFormFile> files, CancellationToken cancellationToken)
     {
         var uploadFilesCommand = new UploadFilesCommand
         {

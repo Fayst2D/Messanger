@@ -91,6 +91,8 @@ builder.Services.AddSignalR();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.AddScoped<IFileService, FileService>();
+
 
 
 var app = builder.Build();

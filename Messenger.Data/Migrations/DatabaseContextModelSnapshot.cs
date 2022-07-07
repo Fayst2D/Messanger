@@ -31,6 +31,10 @@ namespace Messenger.Data.Migrations
                     b.Property<int>("ChatType")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("MembersCount")
                         .HasColumnType("integer");
 

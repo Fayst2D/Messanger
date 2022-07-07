@@ -30,7 +30,8 @@ public class GetUserChatsHandler : IRequestHandler<GetUserChatsQuery, Response<I
             {
                 Id = x.Chat!.Id,
                 Title = x.Chat.Title,
-                MembersCount = x.Chat.MembersCount
+                MembersCount = x.Chat.MembersCount,
+                Image = x.Chat.Image
             }).Take(100).ToListAsync(cancellationToken);
 
         return Response.Ok<IEnumerable<Chat>>("Ok", userChats);

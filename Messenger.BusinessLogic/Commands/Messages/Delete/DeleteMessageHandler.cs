@@ -24,7 +24,8 @@ public class DeleteMessageHandler : IRequestHandler<DeleteMessageCommand, Respon
     {
 
         var chatEntity = await _context.UserChats
-            .Where(x => x.UserId == request.UserId && x.ChatId == request.ChatId)
+            .Where(x => x.UserId == request.UserId)
+            .Where(x => x.ChatId == request.ChatId)
             .Include(x => x.Chat)
             .ThenInclude(x => x.Messages)
             .Select(x => x.Chat)

@@ -25,12 +25,13 @@ public class SearchChatsHandler : IRequestHandler<SearchChatsQuery, Response<IEn
         var chats = await _context.Chats
             .Where(x => x.ChatType == (int)ChatTypes.Channel)
             .Where(x => EF.Functions.Like(x.Title, $"%{request.Title}%"))
-            .Select(x => new Chat
+            .Select(chatEntity => new Chat
             {
-                Id = x.Id,
-                Title = x.Title,
-                MembersCount = x.MembersCount,
-                ChatType = x.ChatType
+                Id = chatEntity.Id,
+                Title = chatEntity.Title,
+                MembersCount = chatEntity.MembersCount,
+                ChatType = chatEntity.ChatType,
+                Image = chatEntity.Image
             }).Take(100).ToListAsync(cancellationToken);
         
         return Response.Ok<IEnumerable<Chat>>("Ok", chats);

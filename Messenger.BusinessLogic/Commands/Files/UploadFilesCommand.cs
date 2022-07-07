@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Messenger.BusinessLogic.Commands.Files;
 
-public class UploadFilesCommand : BaseRequest, IRequest<Response<string>>
+public class UploadFilesCommand : BaseRequest, IRequest<Response<IEnumerable<string>>>
 {
-    public List<IFormFile> Files { get; set; }
+    public ICollection<IFormFile> Files { get; set; }
 }

@@ -2,6 +2,7 @@
 using MediatR;
 using Messenger.BusinessLogic.Commands.Chats.CreateChannel;
 using Messenger.BusinessLogic.Commands.Chats.CreateDirectChat;
+using Messenger.BusinessLogic.Commands.Chats.UploadImage;
 using Messenger.BusinessLogic.Queries.Chats;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -78,5 +79,28 @@ public class ChatsController : BaseApiController
 
         return await Request(createDirectChatCommand, cancellationToken);
     }
-    
+
+    /// <summary>
+    /// Change chat's image
+    /// </summary>
+    /// <param name="chatId">Chat's ID</param>
+    /// <param name="image">Image</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200, 400, 404</returns>
+    [HttpPost("{chatId:guid}/upload-image")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UploadImage([FromRoute] Guid chatId, IFormFile image,
+        CancellationToken cancellationToken)
+    {
+        var uploadImageCommand = new UploadImageCommand
+        {
+            ChatId = chatId,
+            Image = image
+        };
+
+        return await Request(uploadImageCommand, cancellationToken);
+    }
+
 }
