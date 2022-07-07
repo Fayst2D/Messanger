@@ -31,7 +31,7 @@ public class UploadFilesHandler : IRequestHandler<UploadFilesCommand, Response<I
 
         foreach (var file in request.Files)
         {
-            var filePath = _fileService.GenerateUniquePath(FileConstants.StoredFilesPath) + file.FileName;
+            var filePath = _fileService.GenerateUniquePath(FileConstants.StoredFilesPath, file.FileName);
             filePaths.Add(filePath);
 
             await _fileService.UploadFile(file, filePath, cancellationToken);

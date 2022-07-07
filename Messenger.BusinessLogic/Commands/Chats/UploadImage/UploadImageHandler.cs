@@ -49,7 +49,7 @@ public class UploadImageHandler : IRequestHandler<UploadImageCommand, Response<s
             return Response.Fail<string>("Chosen file isn't image", HttpStatusCode.BadRequest);
         }
 
-        var filePath = _fileService.GenerateUniquePath(FileConstants.StoredFilesPath);
+        var filePath = _fileService.GenerateUniquePath(FileConstants.StoredFilesPath, request.Image.FileName);
         
         await _fileService.UploadFile(request.Image,filePath,cancellationToken);
         

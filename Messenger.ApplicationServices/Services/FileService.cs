@@ -50,9 +50,9 @@ public class FileService : IFileService
         return false;
     }
 
-    public string GenerateUniquePath(string basePath)
+    public string GenerateUniquePath(string basePath, string fileName)
     {
-        string uniquePath = $"{basePath+DateTime.Now.ToShortDateString()+Guid.NewGuid().ToString()}";
+        string uniquePath = $"{basePath + DateTime.Now.ToShortDateString() + Guid.NewGuid() + fileName}";
 
         return uniquePath;
     }
