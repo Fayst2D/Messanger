@@ -19,10 +19,11 @@ public class FilesController : BaseApiController
     /// </summary>
     /// <param name="files">uploaded files</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Status codes: 200, 400</returns>
+    /// <returns>Status codes: 200, 400, 422</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> UploadFiles(List<IFormFile> files, CancellationToken cancellationToken)
     {
         var uploadFilesCommand = new UploadFilesCommand

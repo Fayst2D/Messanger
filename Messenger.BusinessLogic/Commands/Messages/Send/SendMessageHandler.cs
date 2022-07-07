@@ -28,12 +28,16 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
             .Where(x => x.ChatId == request.ChatId && x.UserId == request.UserId &&
                         x.LimitType == (int)LimitTypes.Mute)
             .FirstOrDefaultAsync(cancellationToken);
+        
+        var userEntity = await _context.Users
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (muteEntity != null)
         {
             return Response.Fail<Message>($"You will be unmute on {muteEntity.UnLimitedAt}", HttpStatusCode.BadRequest);
         }
 
+        
         var messageEntity = new MessageEntity
         {
             Id = Guid.NewGuid(),
@@ -41,7 +45,7 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
             ChatId = request.ChatId,
             CreatedAt = DateTime.Now,
             MessageText = request.MessageText,
-            Attachment = request.Attachment
+            Attachment = request.Attachment,
         };
 
         _context.Messages.Add(messageEntity);
@@ -54,7 +58,8 @@ public class SendMessageHandler : IRequestHandler<SendMessageCommand, Response<M
             ChatId = messageEntity.ChatId,
             CreatedAt = messageEntity.CreatedAt.ToString(),
             MessageText = messageEntity.MessageText,
-            Attachment = messageEntity.Attachment
+            Attachment = messageEntity.Attachment,
+            UserAvatar = userEntity.Avatar
         };
 
         await _hubContext.Clients.Group(request.ChatId.ToString()).NotifyOnMessageSendAsync(message);

@@ -32,6 +32,7 @@ public class GetUsersByChatHandler : IRequestHandler<GetUsersByChatQuery, Respon
                 UserId = x.User!.Id,
                 Email = x.User.Email,
                 Username = x.User.Username,
+                Avatar = x.User.Username
             }).Take(100).ToListAsync(cancellationToken);
         
         return Response.Ok<IEnumerable<User>>("Ok", users);

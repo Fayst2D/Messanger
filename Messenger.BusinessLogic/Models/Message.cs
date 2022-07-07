@@ -8,5 +8,6 @@
         public string CreatedAt { get; init; } = "";
         public string MessageText { get; init; } = "";
         public string Attachment { get; set; }
+        public string UserAvatar { get; set; }
     }
 }

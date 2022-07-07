@@ -1,4 +1,6 @@
-﻿namespace Messenger.Domain.Entities
+﻿using System.Security.AccessControl;
+
+namespace Messenger.Domain.Entities
 {
     public class MessageEntity
     {

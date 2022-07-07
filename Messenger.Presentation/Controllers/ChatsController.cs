@@ -86,11 +86,12 @@ public class ChatsController : BaseApiController
     /// <param name="chatId">Chat's ID</param>
     /// <param name="image">Image</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Status codes: 200, 400, 404</returns>
+    /// <returns>Status codes: 200, 400, 404, 422</returns>
     [HttpPost("{chatId:guid}/upload-image")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> UploadImage([FromRoute] Guid chatId, IFormFile image,
         CancellationToken cancellationToken)
     {

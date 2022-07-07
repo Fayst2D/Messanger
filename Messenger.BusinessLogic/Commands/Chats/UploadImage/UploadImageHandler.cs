@@ -50,10 +50,8 @@ public class UploadImageHandler : IRequestHandler<UploadImageCommand, Response<s
         }
 
         var filePath = _fileService.GenerateUniquePath(FileConstants.StoredFilesPath, request.Image.FileName);
-        
         await _fileService.UploadFile(request.Image,filePath,cancellationToken);
-        
-        
+
         var fileEntity = new FileEntity
         {
             Id = Guid.NewGuid(),
@@ -69,7 +67,7 @@ public class UploadImageHandler : IRequestHandler<UploadImageCommand, Response<s
         _context.Chats.Update(userChatEntity.Chat);
 
         await _context.SaveChangesAsync(cancellationToken);
-    
+        
         
         return Response.Ok<string>("Ok", "Chat image changed");
     }

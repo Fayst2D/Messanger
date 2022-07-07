@@ -25,6 +25,7 @@ public class GetMessagesHandler : IRequestHandler<GetMessagesQuery, Response<IEn
         var messages = await _context
             .Messages
             .AsNoTracking()
+            .Include(x => x.User)
             .Where(x => x.ChatId == request.ChatId)
             .OrderBy(x => x.CreatedAt)
             .Select(messageEntity => new Message
@@ -34,7 +35,8 @@ public class GetMessagesHandler : IRequestHandler<GetMessagesQuery, Response<IEn
                 UserId = messageEntity.UserId,
                 MessageText = messageEntity.MessageText,
                 CreatedAt = messageEntity.CreatedAt.ToShortTimeString(),
-                Attachment = messageEntity.Attachment  
+                Attachment = messageEntity.Attachment,
+                UserAvatar = messageEntity.User.Avatar
             }).Take(100).ToListAsync(cancellationToken);
 
         

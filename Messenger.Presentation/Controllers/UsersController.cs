@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Messenger.BusinessLogic.Commands.Users.ChangeAvatar;
 using Messenger.BusinessLogic.Commands.Users.Register;
 using Messenger.BusinessLogic.Queries.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -48,5 +49,25 @@ public class UsersController : BaseApiController
         };
             
         return await Request(getUserByIdQuery, cancellationToken);
+    }
+
+    /// <summary>
+    /// Change user's avatar
+    /// </summary>
+    /// <param name="avatar">avatar's image</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200, 422, 400</returns>
+    [HttpPost("change-avatar")]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ChangeAvatar(IFormFile avatar, CancellationToken cancellationToken)
+    {
+        var changeAvatarCommand = new ChangeAvatarCommand
+        {
+            Avatar = avatar
+        };
+
+        return await Request(changeAvatarCommand, cancellationToken);
     }
 }
