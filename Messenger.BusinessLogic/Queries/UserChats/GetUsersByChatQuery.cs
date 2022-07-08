@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Messenger.BusinessLogic.Models;
 using Messenger.Data.Database;
 using Microsoft.EntityFrameworkCore;
@@ -21,19 +22,28 @@ public class GetUsersByChatHandler : IRequestHandler<GetUsersByChatQuery, Respon
     
     public async Task<Response<IEnumerable<User>>> Handle(GetUsersByChatQuery request, CancellationToken cancellationToken)
     {
-        var users = await _context
+        var userChatEntity = await _context
             .UserChats
             .AsNoTracking()
             .Where(x => x.ChatId == request.ChatId && x.UserId == request.UserId)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (userChatEntity == null)
+        {
+            return Response.Fail<IEnumerable<User>>("chat not found", HttpStatusCode.NotFound);
+        }
+
+        var users = _context.UserChats
+            .AsNoTracking()
             .Include(x => x.User)
-            .OrderByDescending(x => x.RoleId)
+            .Where(x => x.ChatId == request.ChatId)
             .Select(x => new User
             {
-                UserId = x.User!.Id,
+                UserId = x.UserId,
+                Avatar = x.User.Avatar,
                 Email = x.User.Email,
                 Username = x.User.Username,
-                Avatar = x.User.Username
-            }).Take(100).ToListAsync(cancellationToken);
+            });
         
         return Response.Ok<IEnumerable<User>>("Ok", users);
     }

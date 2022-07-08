@@ -16,16 +16,14 @@ public class UserChatsController : BaseApiController
 {
     public UserChatsController(IMediator mediator, IMapper mapper) : base(mediator, mapper) { }
 
-        
-        
-
+    
     /// <summary>
     /// Joins to channel by chat's ID
     /// </summary>
     /// <param name="chatId">Chat's ID</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Status codes: 200, 400, 422, 404</returns>
-    [HttpPost]
+    [HttpPost("join")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -48,6 +46,7 @@ public class UserChatsController : BaseApiController
     /// <returns>Status codes: 200</returns>
     [HttpGet("users")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetUsersByChat([FromRoute] Guid chatId, CancellationToken cancellationToken)
     {
         var getUsersChatByChatQuery = new GetUsersByChatQuery
@@ -77,4 +76,6 @@ public class UserChatsController : BaseApiController
 
         return await Request(leaveChatCommand, cancellationToken);
     }
+
+    
 }

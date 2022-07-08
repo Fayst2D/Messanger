@@ -1,6 +1,6 @@
 ﻿namespace Messenger.Domain.Enums;
 
-// Roles with more rights must be bigger number !!
+// Roles with more rights must be bigger numbers !!
 public enum UserChatRoles
 {
     User = 1,
