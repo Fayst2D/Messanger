@@ -5,6 +5,7 @@ using Messenger.Data.Database;
 using Messenger.Domain.Constants;
 using Messenger.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Messenger.BusinessLogic.Commands.Users.ChangeAvatar;
 
@@ -32,6 +33,11 @@ public class ChangeAvatarHandler : IRequestHandler<ChangeAvatarCommand, Response
         if (!_fileService.IsImage(request.Avatar))
         {
             return Response.Fail<string>("Chosen file isn't image", HttpStatusCode.BadRequest);
+        }
+
+        if (!userEntity.Avatar.IsNullOrEmpty())
+        {
+            //TODO delete old avatars
         }
         
         var filePath = _fileService.GenerateUniquePath(FileConstants.StoredFilesPath, request.Avatar.FileName);

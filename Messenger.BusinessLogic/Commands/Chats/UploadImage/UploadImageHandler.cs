@@ -6,6 +6,7 @@ using Messenger.Domain.Constants;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Messenger.BusinessLogic.Commands.Chats.UploadImage;
 
@@ -47,6 +48,11 @@ public class UploadImageHandler : IRequestHandler<UploadImageCommand, Response<s
         if (!_fileService.IsImage(request.Image))
         {
             return Response.Fail<string>("Chosen file isn't image", HttpStatusCode.BadRequest);
+        }
+
+        if (!userChatEntity.Chat.Image.IsNullOrEmpty())
+        {
+            //TODO delete old image
         }
 
         var filePath = _fileService.GenerateUniquePath(FileConstants.StoredFilesPath, request.Image.FileName);
