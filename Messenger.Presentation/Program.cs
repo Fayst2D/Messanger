@@ -15,6 +15,7 @@ using FluentValidation;
 using Messenger.BusinessLogic.Commands.Authentication.Login;
 using Messenger.BusinessLogic.Hubs;
 using Messenger.Data.Database;
+using Messenger.Data.DatabaseService;
 using Messenger.Presentation.Middlewares;
 using Messenger.Presentation.SwaggerFilters;
 
@@ -70,7 +71,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
-    options.UseNpgsql(DatabaseConstants.ConnectionString);
+    options.UseNpgsql(DatabaseService.GetConnectionString());
 });
 
 builder.Services.AddScoped<IJwtGenerator,JwtGenerator>();
