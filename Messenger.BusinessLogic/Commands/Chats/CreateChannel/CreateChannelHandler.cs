@@ -1,11 +1,8 @@
 ﻿using MediatR;
-using Messenger.BusinessLogic.Hubs;
 using Messenger.BusinessLogic.Models;
-using Messenger.Data;
 using Messenger.Data.Database;
 using Messenger.Domain.Entities;
 using Messenger.Domain.Enums;
-using Microsoft.AspNetCore.SignalR;
 
 namespace Messenger.BusinessLogic.Commands.Chats.CreateChannel;
 
@@ -23,6 +20,9 @@ public class CreateChannelHandler : IRequestHandler<CreateChannelCommand, Respon
     
     public async Task<Response<Chat>> Handle(CreateChannelCommand request, CancellationToken cancellationToken)
     {
+        List<string> list = new List<string>();
+        
+    
         var channel = new ChatEntity
         {
             Id = Guid.NewGuid(),

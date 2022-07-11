@@ -37,7 +37,7 @@ public class ChatsController : BaseApiController
     /// <returns>Status codes: 200</returns>
     [HttpGet("search")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Search([FromQuery] string title, CancellationToken cancellationToken)
+    public async Task<IActionResult> SearchChats([FromQuery] string title, CancellationToken cancellationToken)
     {
         var searchChatQuery = new SearchChatsQuery
         {

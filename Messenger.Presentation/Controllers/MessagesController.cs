@@ -86,4 +86,25 @@ public class MessagesController : BaseApiController
         return await Request(editMessageCommand, cancellationToken);
     }
 
+    /// <summary>
+    /// Search messages by text
+    /// </summary>
+    /// <param name="chatId">Chat's ID</param>
+    /// <param name="messageText">Message's text</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200</returns>
+    [HttpGet("{chatId:guid}/search")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> SearchMessage([FromRoute] Guid chatId, [FromQuery] string messageText,
+        CancellationToken cancellationToken)
+    {
+        var searchMessageQuery = new SearchMessagesQuery
+        {
+            ChatId = chatId,
+            MessageText = messageText
+        };
+
+        return await Request(searchMessageQuery, cancellationToken);
+    }
+
 }
