@@ -61,13 +61,32 @@ public class UsersController : BaseApiController
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMutualChannels([FromRoute] Guid partnerId, CancellationToken cancellationToken)
     {
-        var getMutualChannelsCommand = new GetMutualChannelsQuery
+        var getMutualChannelsQuery = new GetMutualChannelsQuery
         {
             PartnerId = partnerId
         };
 
-        return await Request(getMutualChannelsCommand, cancellationToken);
+        return await Request(getMutualChannelsQuery, cancellationToken);
     }
+
+    /// <summary>
+    /// Get mutual contacts with selected user
+    /// </summary>
+    /// <param name="partnerId">Selected user's ID</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200</returns>
+    [HttpGet("{partnerId:guid}/mutual-contacts")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetMutualContacts([FromRoute] Guid partnerId, CancellationToken cancellationToken)
+    {
+        var getMutualContactsQuery = new GetMutualContactsQuery
+        {
+            PartnerId = partnerId
+        };
+
+        return await Request(getMutualContactsQuery, cancellationToken);
+    }
+
 
     /// <summary>
     /// Change user's avatar
