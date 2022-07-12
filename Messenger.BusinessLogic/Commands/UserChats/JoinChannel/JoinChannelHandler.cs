@@ -16,12 +16,12 @@ namespace Messenger.BusinessLogic.Commands.UserChats.JoinChannel;
 public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<Chat>>
 {
     private readonly DatabaseContext _context;
-    //private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
+    private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
 
-    public JoinChannelHandler(DatabaseContext context)
+    public JoinChannelHandler(DatabaseContext context, IHubContext<NotifyHub, IHubClient> hubContext)
     {
         _context = context;
-        //_hubContext = hubContext;
+        _hubContext = hubContext;
     }
     
     public async Task<Response<Chat>> Handle(JoinChannelCommand request, CancellationToken cancellationToken)
@@ -79,8 +79,7 @@ public class JoinChannelHandler : IRequestHandler<JoinChannelCommand, Response<C
             Title = chatEntity.Title
         };
         
-        //await _hubContext.Clients.User(request.UserId.ToString()).AddToGroup(chat.Id.ToString());
-        //await _hubContext.Clients.User(request.UserId.ToString()).UpdateUserChatsAsync(chat);
+        await _hubContext.Clients.User(request.UserId.ToString()).UpdateUserChatsAsync(chat);
 
         return Response.Ok("Ok", chat);
     }

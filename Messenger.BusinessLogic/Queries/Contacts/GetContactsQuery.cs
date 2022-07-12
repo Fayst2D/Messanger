@@ -31,6 +31,7 @@ public class GetContactsHandler : IRequestHandler<GetContactsQuery, Response<IEn
             {
                 ContactId = x.ContactId,
                 Email = x.Contact!.Email,
+                Avatar = x.Contact.Avatar,
                 Username = x.Contact.Username
             }).Take(100).ToListAsync(cancellationToken);
 

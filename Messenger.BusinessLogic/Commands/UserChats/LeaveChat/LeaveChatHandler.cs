@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using MediatR;
 using Messenger.BusinessLogic.Hubs;
+using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Messenger.Data.Database;
 using Messenger.Domain.Enums;
@@ -9,18 +10,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Commands.UserChats.LeaveChat;
 
-public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<string>>
+public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<Chat>>
 {
     private readonly DatabaseContext _context;
-    //private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
+    private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
 
-    public LeaveChatHandler(DatabaseContext context)
+    public LeaveChatHandler(DatabaseContext context, IHubContext<NotifyHub, IHubClient> hubContext)
     {
         _context = context;
-        //_hubContext = hubContext;
+        _hubContext = hubContext;
     }
 
-    public async Task<Response<string>> Handle(LeaveChatCommand request, CancellationToken cancellationToken)
+    public async Task<Response<Chat>> Handle(LeaveChatCommand request, CancellationToken cancellationToken)
     {
         
         var userChatEntity = await _context.UserChats
@@ -32,15 +33,24 @@ public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<strin
         
         if (userChatEntity == null)
         {
-            return Response.Fail<string>("Chat not found", HttpStatusCode.NotFound);
+            return Response.Fail<Chat>("Chat not found", HttpStatusCode.NotFound);
         }
 
         if (userChatEntity.RoleId == (int)UserChatRoles.Owner)
         {
-            return Response.Fail<string>("Owner can't leave chat", HttpStatusCode.BadRequest);
+            return Response.Fail<Chat>("Owner can't leave chat", HttpStatusCode.BadRequest);
         }
 
         var chatEntity = userChatEntity.Chat;
+
+        var chat = new Chat
+        {
+            ChatType = chatEntity.ChatType,
+            Id = chatEntity.Id,
+            Image = chatEntity.Image,
+            MembersCount = chatEntity.MembersCount--,
+            Title = chatEntity.Title
+        };
 
         if (chatEntity.ChatType == (int)ChatTypes.DirectChat)
         {
@@ -54,7 +64,7 @@ public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<strin
 
             await _context.SaveChangesAsync(cancellationToken);
             
-            return Response.Ok<string>("Ok", "Direct chat deleted");
+            return Response.Ok<Chat>("Ok", chat);
         }
 
         _context.UserChats.Remove(userChatEntity);
@@ -64,7 +74,8 @@ public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<strin
 
         await _context.SaveChangesAsync(cancellationToken);
         
+        await _hubContext.Clients.User(request.UserId.ToString()).UpdateUserChatsAsync(chat);
         
-        return Response.Ok<string>("Ok", "You leaved the channel");
+        return Response.Ok<Chat>("Ok", chat);
     }
 }

@@ -24,5 +24,10 @@ public interface IHubClient
     /// Notifies chat's users on the message edit via SignalR
     /// </summary>
     Task NotifyOnMessageEditAsync(Message message);
+    
+    /// <summary>
+    /// Update user's contacts via SignalR
+    /// </summary>
+    Task UpdateUserContactsAsync(Contact contact);
 
 }

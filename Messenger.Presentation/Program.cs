@@ -74,7 +74,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(DatabaseService.GetConnectionString());
 });
 
-builder.Services.AddScoped<IJwtGenerator,JwtGenerator>();
+
 
 builder.Services.AddMediatR(typeof(RegisterUserCommand).Assembly);
 
@@ -92,7 +92,11 @@ builder.Services.AddSignalR();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IJwtGenerator,JwtGenerator>();
+
+
 
 
 

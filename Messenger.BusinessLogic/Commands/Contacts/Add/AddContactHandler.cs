@@ -1,22 +1,27 @@
 ﻿using System.Net;
 using MediatR;
+using Messenger.BusinessLogic.Hubs;
+using Messenger.BusinessLogic.Models;
 using Messenger.Data;
 using Messenger.Data.Database;
 using Messenger.Domain.Entities;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Messenger.BusinessLogic.Commands.Contacts.Add;
 
-public class AddContactHandler : IRequestHandler<AddContactCommand, Response<string>>
+public class AddContactHandler : IRequestHandler<AddContactCommand, Response<Contact>>
 {
     private readonly DatabaseContext _context;
-    
-    public AddContactHandler(DatabaseContext context)
+    private readonly IHubContext<NotifyHub,IHubClient> _hubContext;
+
+    public AddContactHandler(DatabaseContext context, IHubContext<NotifyHub, IHubClient> hubContext)
     {
         _context = context;
+        _hubContext = hubContext;
     }
     
-    public async Task<Response<string>> Handle(AddContactCommand request, CancellationToken cancellationToken)
+    public async Task<Response<Contact>> Handle(AddContactCommand request, CancellationToken cancellationToken)
     {
         //TODO do something with double adding entities
         
@@ -24,21 +29,32 @@ public class AddContactHandler : IRequestHandler<AddContactCommand, Response<str
 
         if (!isContactExists)
         {
-            return Response.Fail<string>("Contact not found", HttpStatusCode.NotFound);
+            return Response.Fail<Contact>("Contact not found", HttpStatusCode.NotFound);
         }
         
         if (request.ContactId == request.UserId)
         {
-            Response.Fail<string>("You can't add yourself", HttpStatusCode.BadRequest);
+            Response.Fail<Contact>("You can't add yourself", HttpStatusCode.BadRequest);
         }
 
+        var contact = await _context.Users.Where(x => x.Id == request.ContactId).FirstOrDefaultAsync(cancellationToken);
         var contactEntity = new ContactEntity
         {
             Id = Guid.NewGuid(),
             ContactId = request.ContactId,
             UserId = request.UserId
         };
+        
+        var contactModel = new Contact
+        {
+            ContactId = contactEntity.ContactId,
+            Username = contact.Username,
+            Avatar = contact.Avatar,
+            Email = contact.Email
+        };
+        
 
+        var user = await _context.Users.Where(x => x.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);
         var userEntity = new ContactEntity //also create contact for added user
         {
             Id = Guid.NewGuid(),
@@ -46,12 +62,23 @@ public class AddContactHandler : IRequestHandler<AddContactCommand, Response<str
             UserId = request.ContactId
         };
 
+        var userModel = new Contact
+        {
+            ContactId = userEntity.ContactId,
+            Email = user.Email,
+            Username = user.Username
+        };
+            
+
 
         await _context.Contacts.AddAsync(contactEntity, cancellationToken);
         _context.Contacts.Add(userEntity);
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        await _hubContext.Clients.User(request.UserId.ToString()).UpdateUserContactsAsync(contactModel);
+        await _hubContext.Clients.User(request.ContactId.ToString()).UpdateUserContactsAsync(userModel);
         
-        return Response.Ok<string>("Ok","Contact added");
+        return Response.Ok<Contact>("Ok",contactModel);
     }
 }
