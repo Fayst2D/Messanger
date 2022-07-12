@@ -7,7 +7,7 @@ heroku link - https://messenger-asp.herokuapp.com/swagger/index.html
 
 
 ## Goals:
-- [ ] Add SignalR
+- [x] Add SignalR
 - [ ] Add more CRUDs
 - [x] Add AutoMapper
 - [x] Deploy
