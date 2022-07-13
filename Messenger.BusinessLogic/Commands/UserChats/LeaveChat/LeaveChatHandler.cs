@@ -26,8 +26,9 @@ public class LeaveChatHandler : IRequestHandler<LeaveChatCommand, Response<Chat>
         
         var userChatEntity = await _context.UserChats
             .Include(x => x.Chat)
-            .Where(x => x.ChatId == request.ChatId)
-            .Where(x => x.UserId == request.UserId)
+            .Where(x =>
+                x.ChatId == request.ChatId &&
+                x.UserId == request.UserId)
             .FirstOrDefaultAsync(cancellationToken);
         
         

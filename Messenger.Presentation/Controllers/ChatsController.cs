@@ -2,6 +2,7 @@
 using MediatR;
 using Messenger.BusinessLogic.Commands.Chats.CreateChannel;
 using Messenger.BusinessLogic.Commands.Chats.CreateDirectChat;
+using Messenger.BusinessLogic.Commands.Chats.DeleteChannel;
 using Messenger.BusinessLogic.Commands.Chats.UploadImage;
 using Messenger.BusinessLogic.Queries.Chats;
 using Microsoft.AspNetCore.Authorization;
@@ -102,6 +103,27 @@ public class ChatsController : BaseApiController
         };
 
         return await Request(uploadImageCommand, cancellationToken);
+    }
+
+    /// <summary>
+    /// Delete channel
+    /// </summary>
+    /// <param name="chatId">Channel's ID</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Status codes: 200, 400, 404, 422</returns>
+    [HttpDelete("{chatId:guid}/delete")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> DeleteChannel([FromRoute] Guid chatId, CancellationToken cancellationToken)
+    {
+        var deleteChannelCommand = new DeleteChannelCommand
+        {
+            ChatId = chatId
+        };
+
+        return await Request(deleteChannelCommand, cancellationToken);
     }
 
 }
