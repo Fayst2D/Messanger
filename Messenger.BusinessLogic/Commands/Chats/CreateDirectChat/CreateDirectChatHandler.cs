@@ -14,12 +14,12 @@ namespace Messenger.BusinessLogic.Commands.Chats.CreateDirectChat;
 public class CreateDirectChatHandler : IRequestHandler<CreateDirectChatCommand, Response<Chat>>
 {
     private readonly DatabaseContext _context;
-    //private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
+    private readonly IHubContext<NotifyHub, IHubClient> _hubContext;
 
-    public CreateDirectChatHandler(DatabaseContext context)
+    public CreateDirectChatHandler(DatabaseContext context, IHubContext<NotifyHub, IHubClient> hubContext)
     {
         _context = context;
-        //_hubContext = hubContext;
+        _hubContext = hubContext;
     }
     
     public async Task<Response<Chat>> Handle(CreateDirectChatCommand request, CancellationToken cancellationToken)
@@ -77,10 +77,10 @@ public class CreateDirectChatHandler : IRequestHandler<CreateDirectChatCommand, 
             MembersCount = chatEntity.MembersCount,
             Title = chatEntity.Title
         };
-        
-        //await _hubContext.Clients.User(request.UserId.ToString()).AddToGroup(chat.Id.ToString());
-        //await _hubContext.Clients.User(request.PartnerId.ToString()).AddToGroup(chat.Id.ToString());
-        //await _hubContext.Clients.Group(chat.Id.ToString()).UpdateUserChatsAsync(chat);
+
+        await _hubContext.Clients.User(request.UserId.ToString()).UpdateUserChatsAsync(chat);
+        await _hubContext.Clients.User(request.PartnerId.ToString()).UpdateUserChatsAsync(chat);
+
         
         return Response.Ok<Chat>("Ok",chat);
 
