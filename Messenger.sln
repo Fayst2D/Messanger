@@ -5,15 +5,15 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C1E801E-EE51-4C03-BB99-AA4E117313BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Presentation", "Messenger.Presentation\Messenger.Presentation.csproj", "{A07DD623-FAFD-4A06-8B3A-B1CF6172D128}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Presentation", "src\Messenger.Presentation\Messenger.Presentation.csproj", "{A07DD623-FAFD-4A06-8B3A-B1CF6172D128}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Domain", "Messenger.Domain\Messenger.Domain.csproj", "{9DF30E38-CAF2-4A52-8B87-9BF1F0797323}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Domain", "src\Messenger.Domain\Messenger.Domain.csproj", "{9DF30E38-CAF2-4A52-8B87-9BF1F0797323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.BusinessLogic", "Messenger.BusinessLogic\Messenger.BusinessLogic.csproj", "{6C947B49-D9BC-4DF0-8206-28D8AEA7E994}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.BusinessLogic", "src\Messenger.BusinessLogic\Messenger.BusinessLogic.csproj", "{6C947B49-D9BC-4DF0-8206-28D8AEA7E994}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Data", "Messenger.Data\Messenger.Data.csproj", "{2CE364DA-83E5-4B72-ACF7-3B264E219933}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.Data", "src\Messenger.Data\Messenger.Data.csproj", "{2CE364DA-83E5-4B72-ACF7-3B264E219933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.ApplicationServices", "Messenger.ApplicationServices\Messenger.ApplicationServices.csproj", "{0B4A077F-9812-47AB-9D2B-65666A643D47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messenger.ApplicationServices", "src\Messenger.ApplicationServices\Messenger.ApplicationServices.csproj", "{0B4A077F-9812-47AB-9D2B-65666A643D47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
