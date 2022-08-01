@@ -1,7 +1,7 @@
 # MessengerWebAPI
 
 ## Description
-Opensource ASP.net WebAPI messenger
+Implenitation of simple messenger API
 
 
 ## Online
