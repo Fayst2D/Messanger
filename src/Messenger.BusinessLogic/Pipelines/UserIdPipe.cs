@@ -13,9 +13,8 @@ public class UserIdPipe<TIn, TOut> : IPipelineBehavior<TIn,TOut> where TIn : IRe
         _httpContext = httpContextAccessor.HttpContext;
     }
     
-    public async Task<TOut> Handle(TIn request, CancellationToken cancellationToken, RequestHandlerDelegate<TOut> next)
+    public async Task<TOut> Handle(TIn request, RequestHandlerDelegate<TOut> next, CancellationToken cancellationToken)
     {
-
         if (request is BaseRequest baseRequest)
         {
             var userId = Guid.Parse(_httpContext.User.FindFirst("sub")!.Value);
